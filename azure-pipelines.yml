@@ -10,7 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  buildConfiguration: 'Development'
+  group: 'Development'
 
 steps:
 - task: Gradle@2
