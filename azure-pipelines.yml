@@ -9,7 +9,7 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-variable:
+variables:
   buildConfiguration: 'Development'
 
 steps:
