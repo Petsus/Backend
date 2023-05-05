@@ -9,6 +9,9 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variable:
+  buildConfiguration: 'Development'
+
 steps:
 - task: Gradle@2
   inputs:
@@ -24,7 +27,7 @@ steps:
 
 - task: replacetokens@5
   inputs:
-    targetFiles: '**/application-prod.properties'
+    targetFiles: '**/*-prod.properties'
     encoding: 'auto'
     tokenPattern: 'default'
     writeBOM: true
@@ -35,3 +38,9 @@ steps:
     enableRecursion: false
     useLegacyPattern: false
     enableTelemetry: true
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)'
+    artifact: 'backend'
+    publishLocation: 'pipeline'
