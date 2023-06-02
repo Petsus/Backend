@@ -13,6 +13,5 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 class PetSusApplication
 
 fun main(args: Array<String>) {
-    
     runApplication<PetSusApplication>(*args)
 }

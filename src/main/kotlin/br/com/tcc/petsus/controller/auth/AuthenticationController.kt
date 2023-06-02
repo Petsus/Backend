@@ -1,14 +1,17 @@
 package br.com.tcc.petsus.controller.auth
 
 import br.com.tcc.petsus.error.model.ErrorResponse
-import br.com.tcc.petsus.model.auth.*
+import br.com.tcc.petsus.model.auth.AuthRequest
+import br.com.tcc.petsus.model.auth.RefreshToken
+import br.com.tcc.petsus.model.auth.Verification
+import br.com.tcc.petsus.model.auth.toAuthToken
 import br.com.tcc.petsus.model.base.DataResponse
 import br.com.tcc.petsus.model.user.UserRole
 import br.com.tcc.petsus.model.user.base.CreateUser
 import br.com.tcc.petsus.model.user.base.User
 import br.com.tcc.petsus.model.user.base.toUser
 import br.com.tcc.petsus.repository.UserRepository
-import br.com.tcc.petsus.repository.VerificationRepository
+import br.com.tcc.petsus.repository.notification.VerificationRepository
 import br.com.tcc.petsus.service.security.TokenService
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets
@@ -49,50 +52,11 @@ class AuthenticationController {
     @PostMapping(value = ["/login"])
     fun auth(@RequestBody @Valid auth: AuthRequest): ResponseEntity<Any> {
         runCatching {
-            when {
-                auth.googleAuthCode != null -> {
-                    val payloadResponse = GoogleClientSecrets.load(GsonFactory.getDefaultInstance(), ResourceUtils.getFile("classpath:client_secret.json").reader()).let { clientSecrets ->
-                        val codeTokenRequest = GoogleAuthorizationCodeTokenRequest(NetHttpTransport(), GsonFactory.getDefaultInstance(), "https://oauth2.googleapis.com/token", clientSecrets.details.clientId, clientSecrets.details.clientSecret, auth.googleAuthCode!!, "")
-                        val verifier = GoogleIdTokenVerifier.Builder(NetHttpTransport(), GsonFactory.getDefaultInstance()).setAudience(Collections.singletonList(clientSecrets.details.clientId)).build()
-                        return@let verifier.verify(codeTokenRequest.execute().idToken).payload ?: return ResponseEntity.unprocessableEntity().build()
-                    }
-
-                    val user = repository.findByGoogleId(payloadResponse.subject)
-                    if (user.isPresent)
-                        return@runCatching authenticationManager.authenticate(UsernamePasswordAuthenticationToken(user.get().googleId, user.get().googleId))
-                    else {
-                        val currentDate = Date()
-                        val newUser = repository.save(
-                            User(
-                                id = 0,
-                                name = payloadResponse["name"] as? String ?: "",
-                                email = null,
-                                userPassword = null,
-                                createdAt = currentDate,
-                                updatedAt = currentDate,
-                                enable = true,
-                                phone = null,
-                                emailVerified = currentDate,
-                                phoneVerified = null,
-                                googleId = payloadResponse.subject,
-                                facebookId = null,
-                                role = UserRole.USER,
-                                googlePassword = BCryptPasswordEncoder().encode(payloadResponse.subject),
-                                facebookPassword = null
-                            )
-                        )
-
-                        return@runCatching authenticationManager.authenticate(UsernamePasswordAuthenticationToken(newUser.googleId, newUser.googleId))
-                    }
-                }
-                else -> return@runCatching authenticationManager.authenticate(auth.toAuthToken())
-            }
+            return@runCatching authenticationManager.authenticate(auth.toAuthToken())
         }.onSuccess { authenticate ->
             return ResponseEntity.ok(
                 DataResponse(tokenService.generateToken(authenticate))
             )
-        }.onFailure {
-            it.printStackTrace()
         }
 
         return ResponseEntity.badRequest().body(ErrorResponse(data = "Email ou senha incorreto", message = "Email ou senha incorreto"))

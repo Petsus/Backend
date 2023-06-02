@@ -1,4 +1,4 @@
-package br.com.tcc.petsus.repository
+package br.com.tcc.petsus.repository.address
 
 import br.com.tcc.petsus.model.address.address.Address
 import br.com.tcc.petsus.model.address.city.City
@@ -10,9 +10,6 @@ interface CityRepository : JpaRepository<City, Long>
 interface StateRepository : JpaRepository<State, Long>
 
 interface AddressRepository : JpaRepository<Address, Long> {
-
     fun findByUserId(userId: Long): List<Address>
-
     fun findByClinicId(userId: Long): List<Address>
-
 }

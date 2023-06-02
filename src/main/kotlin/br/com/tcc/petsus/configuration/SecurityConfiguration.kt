@@ -38,6 +38,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
             .antMatchers("/test/**").permitAll()
+            .antMatchers("/about/**").permitAll()
             .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
             .antMatchers(HttpMethod.POST, "/user/reset-password").permitAll()
             .antMatchers(HttpMethod.POST, "/user/change-password").permitAll()

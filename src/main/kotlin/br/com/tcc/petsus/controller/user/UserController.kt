@@ -3,16 +3,13 @@ package br.com.tcc.petsus.controller.user
 import br.com.tcc.petsus.configuration.email.EmailService
 import br.com.tcc.petsus.error.model.ErrorResponse
 import br.com.tcc.petsus.model.auth.ChangePassword
-import br.com.tcc.petsus.model.auth.Verification
 import br.com.tcc.petsus.model.auth.ResetPassword
+import br.com.tcc.petsus.model.auth.Verification
 import br.com.tcc.petsus.model.base.DataResponse
-import br.com.tcc.petsus.model.user.UserRole
 import br.com.tcc.petsus.model.user.base.User
-import br.com.tcc.petsus.model.user.push.PushToken
-import br.com.tcc.petsus.model.user.push.PushTokenRequest
-import br.com.tcc.petsus.repository.VerificationRepository
-import br.com.tcc.petsus.repository.PushTokenRepository
 import br.com.tcc.petsus.repository.UserRepository
+import br.com.tcc.petsus.repository.file.StorageService
+import br.com.tcc.petsus.repository.notification.VerificationRepository
 import br.com.tcc.petsus.util.cast
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -21,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.util.ResourceUtils
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.util.UriComponentsBuilder
 import java.util.*
 import javax.transaction.Transactional
@@ -31,9 +29,6 @@ import javax.validation.Valid
 class UserController {
 
     @Autowired
-    private lateinit var repositoryToken: PushTokenRepository
-
-    @Autowired
     private lateinit var repositoryUser: UserRepository
 
     @Autowired
@@ -42,23 +37,9 @@ class UserController {
     @Autowired
     private lateinit var emailService: EmailService
 
-    @Transactional
-    @PutMapping("/push-token")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun savePushToken(@RequestBody @Valid request: PushTokenRequest) {
-        val token = repositoryToken.findByToken(request.token)
-        val authentication = SecurityContextHolder.getContext().authentication
+    @Autowired
+    private lateinit var storageService: StorageService
 
-        if (token.isEmpty && UserRole.USER.isRole(authentication.authorities)) {
-            repositoryToken.save(
-                PushToken(
-                    id = 0,
-                    token = request.token,
-                    userId = authentication.principal.cast<User>().id
-                )
-            )
-        }
-    }
     @GetMapping
     fun getWithoutId(): ResponseEntity<*> {
         val authentication = SecurityContextHolder.getContext().authentication
@@ -68,9 +49,8 @@ class UserController {
         if (findUser.isEmpty)
             return ResponseEntity.badRequest().body(ErrorResponse(message = "User not found", id))
 
-        return ResponseEntity.ok(DataResponse(data = findUser.get()))
+        return ResponseEntity.ok(DataResponse(data = findUser.get().response()))
     }
-
 
     @GetMapping(value = ["/{id}"])
     fun get(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
@@ -81,7 +61,7 @@ class UserController {
         if (findUser.isEmpty || findUser.get().id != idToken)
             return ResponseEntity.badRequest().body(ErrorResponse(message = "User not found", id))
 
-        return ResponseEntity.ok(DataResponse(data = findUser.get()))
+        return ResponseEntity.ok(DataResponse(data = findUser.get().response()))
     }
 
     @Transactional
@@ -146,4 +126,23 @@ class UserController {
         return ResponseEntity.noContent().build<Any>()
     }
 
+    @PostMapping("/image")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun saveImageProfile(@RequestParam("file") file: MultipartFile) {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val id = authentication.principal.cast<User>().id
+        storageService.save(file, "user/$id")
+    }
+    @GetMapping("/image")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun getImageProfile(): ResponseEntity<*> {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val id = authentication.principal.cast<User>().id
+
+        val resource = storageService.get("user/$id")
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .contentLength(resource.contentLength())
+            .body(resource)
+    }
 }

@@ -9,11 +9,11 @@ import br.com.tcc.petsus.model.address.state.State
 import br.com.tcc.petsus.model.address.state.StateResponse
 import br.com.tcc.petsus.model.address.state.toResponse
 import br.com.tcc.petsus.model.base.DataResponse
-import br.com.tcc.petsus.model.user.base.User
 import br.com.tcc.petsus.model.user.UserRole
-import br.com.tcc.petsus.repository.AddressRepository
-import br.com.tcc.petsus.repository.CityRepository
-import br.com.tcc.petsus.repository.StateRepository
+import br.com.tcc.petsus.model.user.base.User
+import br.com.tcc.petsus.repository.address.AddressRepository
+import br.com.tcc.petsus.repository.address.CityRepository
+import br.com.tcc.petsus.repository.address.StateRepository
 import br.com.tcc.petsus.util.cast
 import br.com.tcc.petsus.util.getOrThrow
 import org.springframework.beans.factory.annotation.Autowired
@@ -61,7 +61,7 @@ class AddressController {
 
     @PostMapping
     @Transactional
-    fun create(@RequestBody @Valid address: AddressRequest, uriBuilder: UriComponentsBuilder): ResponseEntity<*> {
+    fun create(@RequestBody @Valid address: Address.Request, uriBuilder: UriComponentsBuilder): ResponseEntity<*> {
         val city = repositoryCity.findById(address.cityId.getOrThrow())
         if (city.isEmpty)
             return ResponseEntity.badRequest().body(ErrorResponse(message = "City not exists", data = address.cityId))
@@ -70,8 +70,8 @@ class AddressController {
         val id = authentication.principal.cast<User>().id
 
         val newAddress = when (authentication.authorities.first().authority) {
-            UserRole.USER.authority.first().authority -> address.toAddress(city = city.get(), userId = id)
-            UserRole.CLINIC.authority.first().authority -> address.toAddress(city = city.get(), clinicId = id)
+            UserRole.USER.authority.first().authority -> address.entity(city = city.get(), userId = id)
+            UserRole.CLINIC.authority.first().authority -> address.entity(city = city.get(), clinicId = id)
             else -> throw NotImplementedError()
         }
 
@@ -80,12 +80,12 @@ class AddressController {
         return ResponseEntity.created(
             uriBuilder.path("/user/{id}").buildAndExpand(userAddress.id).toUri()
         ).body(
-            DataResponse(data = userAddress.toResponse())
+            DataResponse(data = userAddress.response())
         )
     }
 
     @GetMapping
-    fun list(): ResponseEntity<DataResponse<List<AddressResponse>>> {
+    fun list(): ResponseEntity<DataResponse<List<Address.Response>>> {
         val authentication = SecurityContextHolder.getContext().authentication
         val id = authentication.principal.cast<User>().id
 
@@ -96,7 +96,7 @@ class AddressController {
         }
 
         return ResponseEntity.ok(
-            DataResponse(data = address.stream().map(Address::toResponse).collect(Collectors.toList()))
+            DataResponse(data = address.stream().map(Address::response).collect(Collectors.toList()))
         )
     }
 

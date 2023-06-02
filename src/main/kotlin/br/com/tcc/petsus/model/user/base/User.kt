@@ -2,6 +2,7 @@ package br.com.tcc.petsus.model.user.base
 
 import br.com.tcc.petsus.model.user.UserRole
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.google.gson.annotations.SerializedName
 import org.hibernate.Hibernate
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -14,7 +15,7 @@ data class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long,
     var name: String,
     var email: String?,
-    @JsonIgnore var userPassword: String?,
+    var userPassword: String?,
     var enable: Boolean,
     var createdAt: Date,
     var updatedAt: Date,
@@ -27,6 +28,17 @@ data class User(
     var facebookPassword: String?,
     @Enumerated(EnumType.STRING) val role: UserRole,
 ) : UserDetails {
+    data class UserResponse(
+        @SerializedName("id") val id: Long,
+        @SerializedName("name") val name: String,
+        @SerializedName("email") val email: String?,
+        @SerializedName("phone") val phone: String?,
+        @SerializedName("enable") val enable: Boolean,
+        @SerializedName("createdAt") val createdAt: Date,
+        @SerializedName("updatedAt") val updatedAt: Date,
+        @SerializedName("emailVerified") val emailVerified: Date?,
+        @SerializedName("phoneVerified") val phoneVerified: Date?,
+    )
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = role.authority.toMutableList()
 
@@ -53,7 +65,19 @@ data class User(
 
     @Override
     override fun toString(): String {
-        return this::class.simpleName + "(id = $id , name = $name , email = $email , userPassword = $userPassword , enable = $enable , createdAt = $createdAt , updatedAt = $updatedAt , phone = $phone , emailVerified = $emailVerified , phoneVerified = $phoneVerified , googleId = $googleId , facebookId = $facebookId , role = $role )"
+        return this::class.simpleName + "(id = $id , name = $name , email = $email , enable = $enable , createdAt = $createdAt , updatedAt = $updatedAt , phone = $phone , emailVerified = $emailVerified , phoneVerified = $phoneVerified , role = $role )"
     }
+
+    fun response(): UserResponse = UserResponse(
+        id = this.id,
+        name = this.name,
+        email = this.email,
+        phone = this.phone,
+        enable = this.enable,
+        createdAt = this.createdAt,
+        updatedAt = this.updatedAt,
+        emailVerified = this.emailVerified,
+        phoneVerified = this.phoneVerified,
+    )
 
 }
