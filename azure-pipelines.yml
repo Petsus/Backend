@@ -12,9 +12,11 @@ pool:
 steps:
 - task: replacetokens@5
   inputs:
-    targetFiles: '**/application-dev.properties'
+    targetFiles: '**/*.config'
     encoding: 'auto'
-    tokenPattern: 'default'
+    tokenPattern: 'custom'
+    tokenPrefix: '#{'
+    tokenSuffix: '}#'
     writeBOM: true
     actionOnMissing: 'warn'
     keepToken: false
@@ -23,7 +25,6 @@ steps:
     enableRecursion: false
     useLegacyPattern: false
     enableTelemetry: true
-
 - task: Gradle@2
   inputs:
     workingDirectory: ''
