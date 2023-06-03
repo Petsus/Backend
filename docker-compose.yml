@@ -4,6 +4,8 @@ services:
     build: /
     image: tcc/backend
     container_name: tcc-backend
+    environment:
+      - "SPRING_PROFILES_ACTIVE=local"
     ports:
       - "4200:8080"
     extra_hosts:

@@ -4,7 +4,5 @@ services:
     build: /
     image: tcc/backend
     container_name: tcc-backend
-    ports:
-      - "4200:8080"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=prod"
