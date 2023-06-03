@@ -12,7 +12,7 @@ pool:
 steps:
 - task: replacetokens@5
   inputs:
-    targetFiles: '**/*.config'
+    targetFiles: '**/*.properties'
     encoding: 'auto'
     tokenPattern: 'custom'
     tokenPrefix: '#{'
