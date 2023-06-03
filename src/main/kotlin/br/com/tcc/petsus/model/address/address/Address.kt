@@ -46,6 +46,7 @@ data class Address(
             id: Long = 0,
             city: City,
             userId: Long? = null,
+            clinicId: Long? = null,
             createdAt: Date? = null,
             updatedAt: Date? = null
         ): Address {
