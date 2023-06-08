@@ -18,16 +18,16 @@ data class Clinic(
     val cnpj: String?,
     val cpf: String?,
     @JsonIgnore @OneToOne(mappedBy = "clinic" ) @PrimaryKeyJoinColumn val address: Address,
-    @ManyToMany @JoinTable(
-        name = "clinic_exam",
-        joinColumns = [JoinColumn(name = "clinic_id")],
-        inverseJoinColumns = [JoinColumn(name = "exam_id")]
-    ) val exams: MutableList<Exam>,
-    @ManyToMany @JoinTable(
-        name = "clinic_specie",
-        joinColumns = [JoinColumn(name = "clinic_id")],
-        inverseJoinColumns = [JoinColumn(name = "specie_id")]
-    ) val species: MutableList<Specie>
+//    @ManyToMany @JoinTable(
+//        name = "clinic_exam",
+//        joinColumns = [JoinColumn(name = "clinic_id")],
+//        inverseJoinColumns = [JoinColumn(name = "exam_id")]
+//    ) val exams: MutableList<Exam>,
+//    @ManyToMany @JoinTable(
+//        name = "clinic_specie",
+//        joinColumns = [JoinColumn(name = "clinic_id")],
+//        inverseJoinColumns = [JoinColumn(name = "specie_id")]
+//    ) val species: MutableList<Specie>
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

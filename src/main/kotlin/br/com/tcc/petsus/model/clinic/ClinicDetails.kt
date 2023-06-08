@@ -11,8 +11,8 @@ data class ClinicDetails(
     val createdAt: Date,
     val updatedAt: Date,
     val address: Address,
-    val species: List<Specie>,
-    val exams: List<Exam>
+//    val species: List<Specie>,
+//    val exams: List<Exam>
 )
 
 fun Clinic.toDetails(): ClinicDetails {
@@ -22,7 +22,7 @@ fun Clinic.toDetails(): ClinicDetails {
         createdAt = createdAt,
         updatedAt = updatedAt,
         address = address,
-        species = species,
-        exams = exams
+//        species = species,
+//        exams = exams
     )
 }

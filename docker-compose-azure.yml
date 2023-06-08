@@ -5,4 +5,4 @@ services:
     image: tcc/backend
     container_name: tcc-backend
     environment:
-      - "SPRING_PROFILES_ACTIVE=prod"
+      - "SPRING_PROFILES_ACTIVE=local"

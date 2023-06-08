@@ -37,8 +37,7 @@ class UserController {
     @Autowired
     private lateinit var emailService: EmailService
 
-    @Autowired
-    private lateinit var storageService: StorageService
+    private val storageService: StorageService = StorageService()
 
     @GetMapping
     fun getWithoutId(): ResponseEntity<*> {
