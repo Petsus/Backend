@@ -10,14 +10,11 @@ resources:
 - repo: self
 
 variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'a6927726-c2ee-47b8-9fe0-3ab894caf80d'
+  dockerRegistryServiceConnection: 'Backend'
   imageRepository: 'backend'
   containerRegistry: 'petsusbackend.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
-
-  # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
 stages:
@@ -38,8 +35,22 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: AzureWebAppContainer@1
-      inputs:
-        azureSubscription: 'Azure subscription 1 (965150e6-fb45-4c50-9947-6d4b23bd3177)'
-        appName: 'petsusbackend'
-        containers: '$(containerRegistry)/$(imageRepository):$(tag)'
+
+- stage: Deploy
+  displayName: Deploy
+  jobs:
+    - job: 
+      displayName: Deploy
+      pool:
+        vmImage: $(vmImageName)
+      steps:
+        - task: AzureRmWebAppDeployment@4
+          inputs:
+            ConnectionType: 'AzureRM'
+            azureSubscription: 'Azure subscription 1 (965150e6-fb45-4c50-9947-6d4b23bd3177)'
+            appType: 'webAppContainer'
+            WebAppName: 'petsusbackend'
+            DockerNamespace: 'petsusbackend.azurecr.io'
+            DockerRepository: '$(imageRepository)'
+            DockerImageTag: '$(tag)'
+            AppSettings: '-WEBSITES_PORT 8080'
