@@ -10,8 +10,8 @@ FROM openjdk:11
 
 RUN mkdir /app
 
-COPY --from=build /home/gradle/src/build/libs/*.jar /app.jar
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
