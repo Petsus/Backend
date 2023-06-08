@@ -33,21 +33,3 @@ stages:
         tags: |
           $(tag)
 
-- stage: Deploy
-  displayName: Deploy
-  jobs:
-    - job: 
-      displayName: Deploy
-      pool:
-        vmImage: $(vmImageName)
-      steps:
-        - task: AzureRmWebAppDeployment@4
-          inputs:
-            ConnectionType: 'AzureRM'
-            azureSubscription: 'Azure subscription 1 (965150e6-fb45-4c50-9947-6d4b23bd3177)'
-            appType: 'webAppContainer'
-            WebAppName: 'petsusbackend'
-            DockerNamespace: 'petsusbackend.azurecr.io'
-            DockerRepository: '$(imageRepository)'
-            DockerImageTag: '$(tag)'
-            AppSettings: '-WEBSITES_PORT 8080'
