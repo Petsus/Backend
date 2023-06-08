@@ -17,3 +17,4 @@ steps:
     azureContainerRegistry: '{"loginServer":"petsusbackend.azurecr.io", "id" : "/subscriptions/965150e6-fb45-4c50-9947-6d4b23bd3177/resourceGroups/Backend/providers/Microsoft.ContainerRegistry/registries/petsusbackend"}'
     dockerComposeFile: '**/docker-compose-azure.yml'
     action: 'Run a Docker Compose command'
+    dockerComposeCommand: 'rm --all'
