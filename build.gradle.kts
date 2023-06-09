@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "br.com.tcc"
-version = "0.0.2-SNAPSHOT"
+version = "0.0.3-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 val localProperties: Properties = Properties().apply {
