@@ -29,6 +29,8 @@ class NotificationController @Autowired constructor(
     fun list() = useCase.list().response()
 
     @GetMapping("/{id}")
-    fun details(@PathVariable("id") id: String) =
-        useCase.details(id = id)
+    fun details(@PathVariable("id") id: String) = useCase.details(id = id)
+
+    @GetMapping("/image/{id}")
+    fun downloadImage(@PathVariable("id") id: String) = useCase.downloadImage(id = id)
 }

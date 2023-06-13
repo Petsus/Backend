@@ -9,6 +9,7 @@ import br.com.tcc.petsus.domain.model.user.UserRole
 import br.com.tcc.petsus.domain.repository.notification.NotificationRepository
 import br.com.tcc.petsus.domain.repository.notification.PushTokenRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
+import br.com.tcc.petsus.domain.services.file.StorageService
 import br.com.tcc.petsus.domain.services.usecase.notification.NotificationUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -17,7 +18,8 @@ import org.springframework.stereotype.Component
 @Component
 class NotificationUseCaseImpl @Autowired constructor(
     @Autowired private val pushTokenRepository: PushTokenRepository,
-    @Autowired private val notificationRepository: NotificationRepository
+    @Autowired private val notificationRepository: NotificationRepository,
+    @Autowired private val storageService: StorageService,
 ) : NotificationUseCase {
     override fun insert(request: PushTokenRequest) {
         val token = pushTokenRepository.findByToken(request.token)
@@ -50,4 +52,7 @@ class NotificationUseCaseImpl @Autowired constructor(
         return ProcessResultImpl.successful(data = notification.get().response())
     }
 
+    override fun downloadImage(id: String): ProcessResult {
+        return ProcessResultImpl.resource(resource = storageService.get("notification/$id"))
+    }
 }

@@ -8,4 +8,5 @@ interface NotificationUseCase {
     fun remove(request: PushTokenRequest)
     fun list(): ProcessResult
     fun details(id: String): ProcessResult
+    fun downloadImage(id: String): ProcessResult
 }

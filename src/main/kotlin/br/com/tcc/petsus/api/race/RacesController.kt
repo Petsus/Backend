@@ -1,4 +1,4 @@
-package br.com.tcc.petsus.api
+package br.com.tcc.petsus.api.race
 
 import br.com.tcc.petsus.application.model.animal.request.RaceRequest
 import br.com.tcc.petsus.domain.services.usecase.race.RaceUseCase

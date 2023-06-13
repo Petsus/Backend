@@ -1,7 +1,6 @@
 package br.com.tcc.petsus.domain.model.animal
 
 import br.com.tcc.petsus.domain.model.user.User
-import com.google.gson.annotations.SerializedName
 import org.hibernate.Hibernate
 import java.util.*
 import javax.persistence.*
@@ -10,13 +9,13 @@ import javax.persistence.*
 @Table(name = "animal")
 data class Animal(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id") var id: Long,
-    @SerializedName("created_at") var createdAt: Date,
-    @SerializedName("updated_at") var updatedAt: Date,
-    @SerializedName("name") var name: String,
-    @SerializedName("weight") var weight: Double,
-    @SerializedName("height") var height: Double,
-    @SerializedName("birthday") var birthday: Date?,
-    @SerializedName("image") var image: String?,
+    @Column(name = "created_at") var createdAt: Date,
+    @Column(name = "updated_at") var updatedAt: Date,
+    @Column(name = "name") var name: String,
+    @Column(name = "weight") var weight: Double,
+    @Column(name = "height") var height: Double,
+    @Column(name = "birthday") var birthday: Date?,
+    @Column(name = "image") var image: String?,
     @ManyToOne @JoinColumn(name = "user_id") var user: User,
     @ManyToOne @JoinColumn(name = "race_id") var race: Race,
 ) {
