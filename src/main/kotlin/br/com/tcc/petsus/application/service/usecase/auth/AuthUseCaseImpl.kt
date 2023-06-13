@@ -38,7 +38,8 @@ class AuthUseCaseImpl @Autowired constructor(
 ) : AuthUseCase {
     override fun auth(auth: AuthRequest): ProcessResult {
         runCatching {
-            return ProcessResultImpl.successful(data = authenticationManager.authenticate(auth.authToken()))
+            val authenticate = authenticationManager.authenticate(auth.authToken())
+            return ProcessResultImpl.successful(data = tokenService.generateToken(authenticate))
         }
 
         return ProcessResultImpl.error(error = ErrorResponse(data = "Email ou senha incorreto", message = "Email ou senha incorreto"))
