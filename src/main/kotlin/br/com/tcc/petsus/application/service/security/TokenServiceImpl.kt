@@ -1,8 +1,8 @@
 package br.com.tcc.petsus.application.service.security
 
-import br.com.tcc.petsus.application.model.auth.response.AuthTokenResponse
 import br.com.tcc.petsus.application.util.cast
-import br.com.tcc.petsus.domain.model.user.User
+import br.com.tcc.petsus.domain.model.api.auth.response.AuthTokenResponse
+import br.com.tcc.petsus.domain.model.database.user.base.AuthorizationUser
 import br.com.tcc.petsus.domain.services.security.TokenService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -27,7 +27,7 @@ class TokenServiceImpl @Autowired constructor(
         val currentDate = Date()
         val token = Jwts.builder()
             .setIssuer("API Petsus")
-            .setSubject(authentication.principal.cast<User>().id.toString())
+            .setSubject(authentication.principal.cast<AuthorizationUser>().authorizationId.toString())
             .setIssuedAt(currentDate)
             .setNotBefore(currentDate)
             .setExpiration(Date(expiration.toLong() + currentDate.time))

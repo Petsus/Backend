@@ -1,8 +1,8 @@
 package br.com.tcc.petsus.application.service.handler
 
-import br.com.tcc.petsus.application.model.error.response.ErrorResponse
 import br.com.tcc.petsus.domain.error.ErrorField
 import br.com.tcc.petsus.domain.error.toError
+import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
 import br.com.tcc.petsus.domain.services.handler.ErrorHandlerService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource

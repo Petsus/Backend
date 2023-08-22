@@ -1,10 +1,9 @@
 package br.com.tcc.petsus.infrastructure.security
 
-import br.com.tcc.petsus.application.service.security.AuthenticationServiceImpl
-import br.com.tcc.petsus.application.service.security.TokenServiceImpl
 import br.com.tcc.petsus.application.filter.AuthenticationFilter
 import br.com.tcc.petsus.domain.repository.user.UserRepository
-import org.springframework.beans.factory.annotation.Autowired
+import br.com.tcc.petsus.domain.services.security.AuthenticationService
+import br.com.tcc.petsus.domain.services.security.TokenService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -18,20 +17,13 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
-
 @Configuration
 @EnableWebSecurity
-class SecurityConfiguration : WebSecurityConfigurerAdapter() {
-
-    @Autowired
-    private lateinit var userDetailsService: AuthenticationServiceImpl
-
-    @Autowired
-    private lateinit var tokenService: TokenServiceImpl
-
-    @Autowired
-    private lateinit var repository: UserRepository
-
+class SecurityConfiguration (
+    private val userDetailsService: AuthenticationService,
+    private val tokenService: TokenService,
+    private val repository: UserRepository
+) : WebSecurityConfigurerAdapter() {
     /**
      * Configurations of authorization
      */
@@ -61,14 +53,14 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
      */
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.userDetailsService(userDetailsService).passwordEncoder(BCryptPasswordEncoder())
+            .and()
     }
 
     /**
      * Configurations of static resources
      */
     override fun configure(web: WebSecurity) {
-        web.ignoring()
-            .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**")
+        web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**")
     }
 
     @Bean

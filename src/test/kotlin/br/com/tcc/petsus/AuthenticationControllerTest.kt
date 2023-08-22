@@ -1,5 +1,8 @@
 package br.com.tcc.petsus
 
+import org.junit.jupiter.api.Test
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+
 //import br.com.tcc.petsus.model.auth.AuthRequest
 //import org.junit.Test
 //import org.junit.runner.RunWith
@@ -39,3 +42,10 @@ package br.com.tcc.petsus
 //        ).andExpect(MockMvcResultMatchers.status().isBadRequest)
 //    }
 //}
+
+class AuthenticationControllerTest {
+    @Test
+    fun generatePassword() {
+        println(BCryptPasswordEncoder().encode(""))
+    }
+}

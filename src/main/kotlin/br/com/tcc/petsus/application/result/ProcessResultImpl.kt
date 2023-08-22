@@ -1,10 +1,11 @@
 package br.com.tcc.petsus.application.result
 
-import br.com.tcc.petsus.application.model.error.response.ErrorResponse
-import br.com.tcc.petsus.domain.model.base.DataResponse
+import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
+import br.com.tcc.petsus.domain.model.database.base.DataResponse
 import br.com.tcc.petsus.domain.result.ProcessResult
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import java.net.URI
 
@@ -12,7 +13,8 @@ class ProcessResultImpl private constructor(
     private val status: HttpStatus,
     private val response: DataResponse<*>? = null,
     private val error: ErrorResponse<*>? = null,
-    private val resource: Resource? = null
+    private val resource: Resource? = null,
+    private val mediaType: MediaType? = null
 )  : ProcessResult {
     private var location: URI? = null
 
@@ -34,10 +36,11 @@ class ProcessResultImpl private constructor(
         }
 
         @JvmStatic
-        fun resource(resource: Resource, status: HttpStatus = HttpStatus.OK): ProcessResult {
+        fun resource(resource: Resource, mediaType: MediaType, status: HttpStatus = HttpStatus.OK): ProcessResult {
             return ProcessResultImpl(
                 status = status,
-                resource = resource
+                resource = resource,
+                mediaType = mediaType
             )
         }
     }
@@ -51,6 +54,7 @@ class ProcessResultImpl private constructor(
         if (resource != null)
             return ResponseEntity
                 .status(status)
+                .contentType(mediaType ?: MediaType.ALL)
                 .contentLength(resource.contentLength())
                 .body(resource)
         return ResponseEntity

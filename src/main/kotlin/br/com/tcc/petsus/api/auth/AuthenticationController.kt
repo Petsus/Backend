@@ -1,10 +1,10 @@
 package br.com.tcc.petsus.api.auth
 
-import br.com.tcc.petsus.application.model.auth.request.AuthRequest
-import br.com.tcc.petsus.application.model.auth.request.ChangePasswordRequest
-import br.com.tcc.petsus.application.model.auth.request.RefreshTokenRequest
-import br.com.tcc.petsus.application.model.auth.request.ResetPasswordRequest
-import br.com.tcc.petsus.application.model.user.request.UserRequest
+import br.com.tcc.petsus.domain.model.api.auth.request.AuthRequest
+import br.com.tcc.petsus.domain.model.api.auth.request.ChangePasswordRequest
+import br.com.tcc.petsus.domain.model.api.auth.request.RefreshTokenRequest
+import br.com.tcc.petsus.domain.model.api.auth.request.ResetPasswordRequest
+import br.com.tcc.petsus.domain.model.api.user.request.UserRequest
 import br.com.tcc.petsus.domain.services.usecase.auth.AuthUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus

@@ -1,15 +1,16 @@
 package br.com.tcc.petsus.application.service.usecase.auth
 
-import br.com.tcc.petsus.application.model.auth.request.AuthRequest
-import br.com.tcc.petsus.application.model.auth.request.AuthRequest.Companion.authToken
-import br.com.tcc.petsus.application.model.auth.request.ChangePasswordRequest
-import br.com.tcc.petsus.application.model.auth.request.RefreshTokenRequest
-import br.com.tcc.petsus.application.model.auth.request.ResetPasswordRequest
-import br.com.tcc.petsus.application.model.error.response.ErrorResponse
-import br.com.tcc.petsus.application.model.user.request.UserRequest
-import br.com.tcc.petsus.application.model.user.request.UserRequest.Companion.entity
 import br.com.tcc.petsus.application.result.ProcessResultImpl
-import br.com.tcc.petsus.domain.model.auth.Verification
+import br.com.tcc.petsus.domain.model.api.auth.request.AuthRequest
+import br.com.tcc.petsus.domain.model.api.auth.request.AuthRequest.Companion.authToken
+import br.com.tcc.petsus.domain.model.api.auth.request.ChangePasswordRequest
+import br.com.tcc.petsus.domain.model.api.auth.request.RefreshTokenRequest
+import br.com.tcc.petsus.domain.model.api.auth.request.ResetPasswordRequest
+import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
+import br.com.tcc.petsus.domain.model.api.user.request.UserRequest
+import br.com.tcc.petsus.domain.model.api.user.request.UserRequest.Companion.entity
+import br.com.tcc.petsus.domain.model.database.auth.Verification
+import br.com.tcc.petsus.domain.repository.role.RolesRepository
 import br.com.tcc.petsus.domain.repository.notification.VerificationRepository
 import br.com.tcc.petsus.domain.repository.user.UserRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
@@ -29,12 +30,13 @@ import java.util.*
 
 @Component
 class AuthUseCaseImpl @Autowired constructor(
-    @Autowired private val authenticationManager: AuthenticationManager,
     @Autowired private val tokenService: TokenService,
     @Autowired private val userRepository: UserRepository,
-    @Autowired private val verificationRepository: VerificationRepository,
-    @Autowired private val emailHandlerService: EmailHandlerService,
+    @Autowired private val rolesRepository: RolesRepository,
     @Autowired private val emailConfiguration: EmailConfiguration,
+    @Autowired private val emailHandlerService: EmailHandlerService,
+    @Autowired private val verificationRepository: VerificationRepository,
+    @Autowired private val authenticationManager: AuthenticationManager
 ) : AuthUseCase {
     override fun auth(auth: AuthRequest): ProcessResult {
         runCatching {
@@ -42,7 +44,7 @@ class AuthUseCaseImpl @Autowired constructor(
             return ProcessResultImpl.successful(data = tokenService.generateToken(authenticate))
         }
 
-        return ProcessResultImpl.error(error = ErrorResponse(data = "Email ou senha incorreto", message = "Email ou senha incorreto"))
+        return ProcessResultImpl.error(error = ErrorResponse(data = INVALID_CREDENTIAL, message = INVALID_CREDENTIAL))
     }
 
     override fun refreshToken(refreshToken: RefreshTokenRequest): ProcessResult {
@@ -53,9 +55,9 @@ class AuthUseCaseImpl @Autowired constructor(
 
     override fun create(user: UserRequest, uriBuilder: UriComponentsBuilder): ProcessResult {
         if (userRepository.findByEmail(user.email).isPresent)
-            return ProcessResultImpl.error(error = ErrorResponse(message = "Email unavailable", data = null))
+            return ProcessResultImpl.error(error = ErrorResponse(message = EMAIL_UNAVAILABLE, data = null))
 
-        val userSaved = userRepository.saveAndFlush(user.entity())
+        val userSaved = userRepository.saveAndFlush(user.entity(roles = listOf(rolesRepository.user())))
         val time = GregorianCalendar().run {
             time = Date()
             add(GregorianCalendar.HOUR, 3)
@@ -107,17 +109,22 @@ class AuthUseCaseImpl @Autowired constructor(
     override fun changePassword(request: ChangePasswordRequest): ProcessResult {
         val token = verificationRepository.findByToken(request.token)
         if (token.isEmpty)
-            return ProcessResultImpl.error(error = ErrorResponse(message = "Invalid token", data = request.token))
+            return ProcessResultImpl.error(error = ErrorResponse(message = INVALID_TOKEN, data = request.token))
         if (token.get().expirationDate.time < System.currentTimeMillis())
-            return ProcessResultImpl.error(error = ErrorResponse(message = "Invalid token", data = request.token))
+            return ProcessResultImpl.error(error = ErrorResponse(message = INVALID_TOKEN, data = request.token))
         if (token.get().user.email != request.email)
-            return ProcessResultImpl.error(error = ErrorResponse(message = "Invalid token", data = request.token))
+            return ProcessResultImpl.error(error = ErrorResponse(message = INVALID_TOKEN, data = request.token))
 
         userRepository.save(
-            token.get().user.copy(userPassword = BCryptPasswordEncoder().encode(request.password))
+            token.get().user.apply { userPassword = BCryptPasswordEncoder().encode(request.password) }
         )
         verificationRepository.deleteById(token.get().id)
 
         return ProcessResultImpl.successful(null, status = HttpStatus.NO_CONTENT)
+    }
+    companion object {
+        private const val INVALID_TOKEN = "Invalid token"
+        private const val INVALID_CREDENTIAL = "Email or password invalid"
+        private const val EMAIL_UNAVAILABLE = "Email unavailable"
     }
 }

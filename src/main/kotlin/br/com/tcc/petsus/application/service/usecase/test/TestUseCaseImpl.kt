@@ -1,6 +1,6 @@
 package br.com.tcc.petsus.application.service.usecase.test
 
-import br.com.tcc.petsus.application.model.email.request.SendEmailRequest
+import br.com.tcc.petsus.domain.model.api.email.request.SendEmailRequest
 import br.com.tcc.petsus.domain.services.handler.EmailHandlerService
 import br.com.tcc.petsus.domain.services.usecase.test.TestUseCase
 import org.springframework.beans.factory.annotation.Autowired

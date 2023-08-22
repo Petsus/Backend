@@ -1,7 +1,7 @@
 package br.com.tcc.petsus.application.service.usecase.clinic
 
-import br.com.tcc.petsus.application.model.clinic.response.ClinicAddressResponse.Companion.response
-import br.com.tcc.petsus.application.model.clinic.response.ClinicResponse.Companion.response
+import br.com.tcc.petsus.domain.model.api.clinic.response.ClinicAddressResponse.Companion.response
+import br.com.tcc.petsus.domain.model.api.clinic.response.ClinicResponse.Companion.response
 import br.com.tcc.petsus.application.result.ProcessResultImpl
 import br.com.tcc.petsus.application.util.toMiller
 import br.com.tcc.petsus.domain.repository.clinic.ClinicRepository
@@ -22,7 +22,7 @@ class ClinicUseCaseImpl @Autowired constructor(
     }
 
     override fun find(id: Long): ProcessResult {
-        val clinic = clinicRepository.findById(id).takeIf(Optional<*>::isEmpty) ?: return ProcessResultImpl.error(error = null, status = HttpStatus.NOT_FOUND)
+        val clinic = clinicRepository.findById(id).takeIf(Optional<*>::isPresent) ?: return ProcessResultImpl.error(error = null, status = HttpStatus.NOT_FOUND)
         return ProcessResultImpl.successful(data = clinic.get().response())
     }
 }

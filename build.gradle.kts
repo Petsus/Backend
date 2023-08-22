@@ -55,7 +55,8 @@ dependencies {
 
     implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
-    implementation("com.google.api-client:google-api-client:2.1.1")
+
+    implementation("com.google.firebase:firebase-admin:9.1.1")
 }
 
 tasks.withType<KotlinCompile> {

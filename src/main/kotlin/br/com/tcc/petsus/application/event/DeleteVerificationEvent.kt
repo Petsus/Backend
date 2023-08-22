@@ -8,13 +8,11 @@ import java.time.LocalDateTime
 
 @Component
 @EnableScheduling
-class DeleteVerificationEvent {
-
-    private lateinit var repository: VerificationRepository
-
+class DeleteVerificationEvent(
+    private val repository: VerificationRepository
+) {
     @Scheduled(cron = "0 0 3 * * ?")
     fun delete() {
         repository.deleteByExpirationDateLessThan(LocalDateTime.now())
     }
-
 }

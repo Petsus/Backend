@@ -1,10 +1,10 @@
 package br.com.tcc.petsus.application.service.usecase.race
 
-import br.com.tcc.petsus.application.model.animal.request.RaceRequest
-import br.com.tcc.petsus.application.model.animal.request.RaceRequest.Companion.entity
-import br.com.tcc.petsus.application.model.animal.response.RaceResponse.Companion.response
-import br.com.tcc.petsus.application.model.error.response.ErrorResponse
 import br.com.tcc.petsus.application.result.ProcessResultImpl
+import br.com.tcc.petsus.domain.model.api.animal.request.RaceRequest
+import br.com.tcc.petsus.domain.model.api.animal.request.RaceRequest.Companion.entity
+import br.com.tcc.petsus.domain.model.api.animal.response.RaceResponse.Companion.response
+import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
 import br.com.tcc.petsus.domain.repository.race.RaceRepository
 import br.com.tcc.petsus.domain.repository.specie.SpecieRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
@@ -30,7 +30,7 @@ class RaceUseCaseImpl @Autowired constructor(
             return ProcessResultImpl.error(error = ErrorResponse(data = request.specieId, message = "Specie not found"))
 
         val race = raceRepository.save(request.entity(specie = specie.get()))
-        return ProcessResultImpl.successful(race, status = HttpStatus.CREATED)
+        return ProcessResultImpl.successful(race.response(), status = HttpStatus.CREATED)
             .location(uriComponentsBuilder.path("/races/{id}")
                 .buildAndExpand(race.id)
                 .toUri()

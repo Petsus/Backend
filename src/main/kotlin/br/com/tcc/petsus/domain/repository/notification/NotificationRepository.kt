@@ -1,6 +1,6 @@
 package br.com.tcc.petsus.domain.repository.notification
 
-import br.com.tcc.petsus.domain.model.notification.Notification
+import br.com.tcc.petsus.domain.model.database.notification.Notification
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import java.util.*

@@ -1,6 +1,6 @@
 package br.com.tcc.petsus.domain.repository.news
 
-import br.com.tcc.petsus.domain.model.news.News
+import br.com.tcc.petsus.domain.model.database.news.News
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
