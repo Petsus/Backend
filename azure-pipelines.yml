@@ -10,7 +10,7 @@ resources:
   - repo: self
 
 variables:
-  dockerRegistryServiceConnection: 'containerbackpetsusazurecr.io'
+  dockerRegistryServiceConnection: 'containerbackpetsus.azurecr.io'
   imageRepository: 'backend'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
