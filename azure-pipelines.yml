@@ -66,8 +66,9 @@ stages:
               ConnectionType: 'AzureRM'
               azureSubscription: 'Subscription(965150e6-fb45-4c50-9947-6d4b23bd3177)'
               appType: 'webAppContainer'
-              WebAppName: 'backendpetsus'
+              WebAppName: 'petsus-backend'
               DockerNamespace: 'azurecr.io'
               DockerRepository: '$(imageRepository)'
               DockerImageTag: '$(tag)'
               AppSettings: '-WEBSITES_PORT 8080'
+          
