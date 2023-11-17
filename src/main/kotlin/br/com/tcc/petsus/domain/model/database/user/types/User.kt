@@ -1,5 +1,7 @@
 package br.com.tcc.petsus.domain.model.database.user.types
 
+import br.com.tcc.petsus.domain.model.api.user.response.UserResponse
+import br.com.tcc.petsus.domain.model.api.user.response.UserResponse.Companion.userResponse
 import br.com.tcc.petsus.domain.model.database.user.base.AuthorizationUser
 import org.hibernate.Hibernate
 import java.util.*
@@ -16,6 +18,7 @@ data class User(
     @Column(name = "email_verified") var emailVerified: Date?,
     @Column(name = "id") @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long,
 ) : AuthorizationUser() {
+    override fun response(): UserResponse = this.userResponse()
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || Hibernate.getClass(this) != Hibernate.getClass(other)) return false

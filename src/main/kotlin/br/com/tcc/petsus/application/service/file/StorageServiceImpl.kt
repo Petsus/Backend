@@ -14,4 +14,6 @@ class StorageServiceImpl : StorageService {
     override fun save(multipartFile: MultipartFile, name: String) {
         images[name] = multipartFile.bytes
     }
+
+    override fun has(name: String): Boolean = images.containsKey(name)
 }

@@ -1,5 +1,7 @@
 package br.com.tcc.petsus.domain.model.database.user.types
 
+import br.com.tcc.petsus.domain.model.api.user.response.AdmResponse.Companion.admResponse
+import br.com.tcc.petsus.domain.model.api.user.response.UserResponse
 import br.com.tcc.petsus.domain.model.database.user.base.AuthorizationUser
 import org.hibernate.Hibernate
 import java.util.*
@@ -20,6 +22,8 @@ data class AdmUser(
 
         return id == other.id
     }
+
+    override fun response(): UserResponse = this.admResponse()
 
     override fun hashCode(): Int = javaClass.hashCode()
 

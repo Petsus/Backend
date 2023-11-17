@@ -1,7 +1,7 @@
 package br.com.tcc.petsus.api.users.race
 
 import br.com.tcc.petsus.domain.model.api.animal.request.RaceRequest
-import br.com.tcc.petsus.domain.services.usecase.race.RaceUseCase
+import br.com.tcc.petsus.domain.services.usecase.animal.race.RaceUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable

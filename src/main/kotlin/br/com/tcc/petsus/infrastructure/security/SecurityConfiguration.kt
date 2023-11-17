@@ -1,7 +1,7 @@
 package br.com.tcc.petsus.infrastructure.security
 
 import br.com.tcc.petsus.application.filter.AuthenticationFilter
-import br.com.tcc.petsus.domain.repository.user.UserRepository
+import br.com.tcc.petsus.domain.repository.user.AuthenticationRepository
 import br.com.tcc.petsus.domain.services.security.AuthenticationService
 import br.com.tcc.petsus.domain.services.security.TokenService
 import org.springframework.context.annotation.Bean
@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfiguration (
     private val userDetailsService: AuthenticationService,
     private val tokenService: TokenService,
-    private val repository: UserRepository
+    private val repository: AuthenticationRepository
 ) : WebSecurityConfigurerAdapter() {
     /**
      * Configurations of authorization
@@ -37,6 +37,8 @@ class SecurityConfiguration (
             .antMatchers(HttpMethod.GET, "/address/city").permitAll()
             .antMatchers(HttpMethod.GET, "/address/state").permitAll()
             .antMatchers(HttpMethod.GET, "/exam/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/news/image/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/clinic/image/**").permitAll()
             .antMatchers(HttpMethod.POST, "/exam/**").hasRole("ADM")
             .antMatchers(HttpMethod.GET, "/actuator/**").hasRole("ADM")
             .antMatchers(HttpMethod.POST, "/actuator/state").hasRole("ADM")

@@ -1,7 +1,7 @@
 package br.com.tcc.petsus.api.users.specie
 
 import br.com.tcc.petsus.domain.model.api.specie.request.SpecieRequest
-import br.com.tcc.petsus.domain.services.usecase.specie.SpecieUseCase
+import br.com.tcc.petsus.domain.services.usecase.animal.specie.SpecieUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.web.bind.annotation.*

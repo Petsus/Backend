@@ -6,7 +6,7 @@ import br.com.tcc.petsus.domain.model.api.specie.request.SpecieRequest.Companion
 import br.com.tcc.petsus.domain.model.api.specie.response.SpecieResponse.Companion.response
 import br.com.tcc.petsus.domain.repository.specie.SpecieRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
-import br.com.tcc.petsus.domain.services.usecase.specie.SpecieUseCase
+import br.com.tcc.petsus.domain.services.usecase.animal.specie.SpecieUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component

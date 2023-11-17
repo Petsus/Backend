@@ -8,7 +8,7 @@ import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
 import br.com.tcc.petsus.domain.repository.race.RaceRepository
 import br.com.tcc.petsus.domain.repository.specie.SpecieRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
-import br.com.tcc.petsus.domain.services.usecase.race.RaceUseCase
+import br.com.tcc.petsus.domain.services.usecase.animal.race.RaceUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus

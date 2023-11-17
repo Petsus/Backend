@@ -3,10 +3,11 @@ package br.com.tcc.petsus.application.service.usecase.user
 import br.com.tcc.petsus.application.result.ProcessResultImpl
 import br.com.tcc.petsus.application.util.currentUser
 import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
+import br.com.tcc.petsus.domain.repository.user.AuthenticationRepository
 import br.com.tcc.petsus.domain.repository.user.UserRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.file.StorageService
-import br.com.tcc.petsus.domain.services.usecase.user.UserUseCase
+import br.com.tcc.petsus.domain.services.usecase.auth.user.UserUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -16,14 +17,15 @@ import org.springframework.web.multipart.MultipartFile
 @Component
 class UserUseCaseImpl @Autowired constructor(
     @Autowired private val userRepository: UserRepository,
-    @Autowired private val storageService: StorageService
+    @Autowired private val storageService: StorageService,
+    @Autowired private val authenticationRepository: AuthenticationRepository,
 )  : UserUseCase {
     override fun get(): ProcessResult {
-        val findUser = userRepository.findById(currentUser().id)
+        val findUser = authenticationRepository.findById(currentUser.authorizationId)
         if (findUser.isEmpty)
-            return ProcessResultImpl.error(error = ErrorResponse(message = USER_NOT_FOUND, data = currentUser().id))
+            return ProcessResultImpl.error(error = ErrorResponse(message = USER_NOT_FOUND, data = USER_NOT_FOUND))
 
-        return ProcessResultImpl.successful(findUser.get())
+        return ProcessResultImpl.successful(findUser.get().response())
     }
 
     override fun get(id: Long): ProcessResult {

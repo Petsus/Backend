@@ -6,4 +6,5 @@ import org.springframework.web.multipart.MultipartFile
 interface StorageService {
     fun save(multipartFile: MultipartFile, name: String)
     fun get(name: String): Resource
+    fun has(name: String): Boolean
 }

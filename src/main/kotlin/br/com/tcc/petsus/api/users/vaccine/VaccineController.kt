@@ -1,7 +1,7 @@
 package br.com.tcc.petsus.api.users.vaccine
 
 import br.com.tcc.petsus.domain.model.api.vaccine.request.VaccineRequest
-import br.com.tcc.petsus.domain.services.usecase.vaccine.VaccineUseCase
+import br.com.tcc.petsus.domain.services.usecase.history.vaccine.VaccineUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable

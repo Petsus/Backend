@@ -1,6 +1,6 @@
 package br.com.tcc.petsus.api.users.user
 
-import br.com.tcc.petsus.domain.services.usecase.user.UserUseCase
+import br.com.tcc.petsus.domain.services.usecase.auth.user.UserUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*

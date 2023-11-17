@@ -6,7 +6,7 @@ import br.com.tcc.petsus.domain.model.api.vaccine.request.VaccineRequest.Compani
 import br.com.tcc.petsus.domain.model.api.vaccine.response.VaccineResponse.Companion.response
 import br.com.tcc.petsus.domain.repository.vaccine.VaccineRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
-import br.com.tcc.petsus.domain.services.usecase.vaccine.VaccineUseCase
+import br.com.tcc.petsus.domain.services.usecase.history.vaccine.VaccineUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component

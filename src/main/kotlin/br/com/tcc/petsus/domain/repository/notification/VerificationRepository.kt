@@ -9,6 +9,6 @@ interface VerificationRepository : JpaRepository<Verification, Long> {
 
     fun findByToken(token: String): Optional<Verification>
 
-    fun deleteByExpirationDateLessThan(dateTime: LocalDateTime)
+    fun deleteByExpirationDateLessThan(dateTime: Date)
 
 }

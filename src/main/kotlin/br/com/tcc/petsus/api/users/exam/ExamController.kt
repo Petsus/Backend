@@ -1,7 +1,7 @@
 package br.com.tcc.petsus.api.users.exam
 
 import br.com.tcc.petsus.domain.model.api.exam.request.ExamRequest
-import br.com.tcc.petsus.domain.services.usecase.exam.ExamUseCase
+import br.com.tcc.petsus.domain.services.usecase.history.exam.ExamUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable

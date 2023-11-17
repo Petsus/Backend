@@ -3,6 +3,7 @@ package br.com.tcc.petsus.domain.model.database.clinic
 import br.com.tcc.petsus.domain.model.database.address.Address
 import br.com.tcc.petsus.domain.model.database.animal.Specie
 import br.com.tcc.petsus.domain.model.database.exam.Exam
+import br.com.tcc.petsus.domain.model.database.user.types.ClinicUser
 import org.hibernate.Hibernate
 import java.util.*
 import javax.persistence.*
@@ -14,8 +15,9 @@ data class Clinic(
     @Column(name = "name") val name: String,
     @Column(name = "created_at") val createdAt: Date,
     @Column(name = "updated_at") val updatedAt: Date,
-    @Column(name = "cnpj") val cnpj: String?,
-    @Column(name = "cpf") val cpf: String?,
+    @OneToOne @JoinColumn(name = "adm_user") val admUser: ClinicUser,
+    @Column(name = "phone") val phone: String?,
+    @Column(name = "site") val site: String?,
     @OneToOne @JoinColumn(name = "address_id") val address: Address,
     @ManyToMany @JoinTable(
         name = "clinic_exam",
@@ -40,6 +42,6 @@ data class Clinic(
 
     @Override
     override fun toString(): String {
-        return this::class.simpleName + "(id = $id , name = $name , createdAt = $createdAt , updatedAt = $updatedAt , cnpj = $cnpj , cpf = $cpf , address = $address )"
+        return this::class.simpleName + "(id = $id , name = $name , createdAt = $createdAt , updatedAt = $updatedAt , address = $address )"
     }
 }

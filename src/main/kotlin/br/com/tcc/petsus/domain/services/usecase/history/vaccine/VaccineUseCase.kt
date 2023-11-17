@@ -1,4 +1,4 @@
-package br.com.tcc.petsus.domain.services.usecase.vaccine
+package br.com.tcc.petsus.domain.services.usecase.history.vaccine
 
 import br.com.tcc.petsus.domain.model.api.vaccine.request.VaccineRequest
 import br.com.tcc.petsus.domain.result.ProcessResult

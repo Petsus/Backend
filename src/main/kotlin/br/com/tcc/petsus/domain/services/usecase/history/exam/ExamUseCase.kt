@@ -1,4 +1,4 @@
-package br.com.tcc.petsus.domain.services.usecase.exam
+package br.com.tcc.petsus.domain.services.usecase.history.exam
 
 import br.com.tcc.petsus.domain.model.api.exam.request.ExamRequest
 import br.com.tcc.petsus.domain.result.ProcessResult

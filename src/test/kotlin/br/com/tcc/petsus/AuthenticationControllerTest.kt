@@ -46,6 +46,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 class AuthenticationControllerTest {
     @Test
     fun generatePassword() {
-        println(BCryptPasswordEncoder().encode(""))
+        println(BCryptPasswordEncoder().encode("margaret.p4"))
     }
 }

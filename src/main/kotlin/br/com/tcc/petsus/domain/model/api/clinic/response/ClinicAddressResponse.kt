@@ -12,8 +12,8 @@ data class ClinicAddressResponse(
 ) {
     companion object {
         @JvmStatic
-        fun ClinicAddress.response(): br.com.tcc.petsus.domain.model.api.clinic.response.ClinicAddressResponse =
-            br.com.tcc.petsus.domain.model.api.clinic.response.ClinicAddressResponse(
+        fun ClinicAddress.response(): ClinicAddressResponse =
+            ClinicAddressResponse(
                 id = id,
                 name = name,
                 lat = lat,

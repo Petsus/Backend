@@ -1,5 +1,6 @@
 package br.com.tcc.petsus.application.filter
 
+import br.com.tcc.petsus.domain.repository.user.AuthenticationRepository
 import br.com.tcc.petsus.domain.repository.user.UserRepository
 import br.com.tcc.petsus.domain.services.security.TokenService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletResponse
 
 class AuthenticationFilter(
     private val tokenService: TokenService,
-    private val repository: UserRepository
+    private val repository: AuthenticationRepository
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
@@ -27,7 +28,7 @@ class AuthenticationFilter(
             val header = getHeader("Authorization")
             if (header.isNullOrBlank() || !header.startsWith("Bearer "))
                 return null
-            return header.substring(7)
+            return header.substringAfter("Bearer ")
         }
 
     private fun String.authenticate() {
