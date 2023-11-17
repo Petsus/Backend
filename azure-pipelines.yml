@@ -12,7 +12,7 @@ resources:
 variables:
   dockerRegistryServiceConnection: 'Backend'
   imageRepository: 'backend'
-  containerRegistry: 'petsusbackend.azurecr.io'
+  containerRegistry: 'containerbackpetsus.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
   vmImageName: 'ubuntu-latest'
