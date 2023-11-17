@@ -10,7 +10,7 @@ resources:
   - repo: self
 
 variables:
-  dockerRegistryServiceConnection: 'containerbackpetsus.azurecr.io'
+  dockerRegistryServiceConnection: 'Container Registry Backend'
   imageRepository: 'backend'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
@@ -70,4 +70,3 @@ stages:
               DockerRepository: '$(imageRepository)'
               DockerImageTag: '$(tag)'
               AppSettings: '-WEBSITES_PORT 8080'
-          
