@@ -9,7 +9,7 @@ data class AddressResponse(
     @SerializedName("id") val id: Long,
     @SerializedName("lat") val lat: Double,
     @SerializedName("lng")  val lng: Double,
-    @SerializedName("number") val number: Int,
+    @SerializedName("number") val number: Long,
     @SerializedName("city") val city: CityResponse,
     @SerializedName("address") val address: String,
     @SerializedName("state")  val state: StateResponse,
