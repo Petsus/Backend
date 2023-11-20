@@ -17,6 +17,9 @@ import javax.validation.Valid
 class NewsController @Autowired constructor(
     @Autowired private val useCase: NewsUseCase
 ) {
+    @GetMapping
+    fun list() = useCase.list().response()
+
     @PostMapping(consumes = ["multipart/form-data"])
     @ResponseStatus(HttpStatus.CREATED)
     fun save(

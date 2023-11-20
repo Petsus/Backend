@@ -33,4 +33,5 @@ data class User(
     override fun toString(): String {
         return this::class.simpleName + "(id = $id , phone = $phone , phoneVerified = $phoneVerified , emailVerified = $emailVerified , name = $name , email = $email , authorizationId = $authorizationId , enable = $enable )"
     }
+    
 }

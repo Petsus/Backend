@@ -27,6 +27,7 @@ class AuthenticationController @Autowired constructor(
         useCase.refreshToken(refreshToken = refreshToken)
 
     @PostMapping(value = ["/user"])
+    @Transactional
     fun create(@RequestBody user: UserRequest, uriBuilder: UriComponentsBuilder) =
         useCase.create(user = user, uriBuilder = uriBuilder).response()
 

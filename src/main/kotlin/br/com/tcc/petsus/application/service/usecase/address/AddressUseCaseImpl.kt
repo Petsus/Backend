@@ -3,9 +3,9 @@ package br.com.tcc.petsus.application.service.usecase.address
 import br.com.tcc.petsus.application.result.ProcessResultImpl
 import br.com.tcc.petsus.application.util.currentUser
 import br.com.tcc.petsus.application.util.getOrThrow
+import br.com.tcc.petsus.domain.model.api.address.request.AddressRequest
 import br.com.tcc.petsus.domain.model.api.address.request.AddressRequest.Companion.entity
 import br.com.tcc.petsus.domain.model.api.address.response.AddressResponse.Companion.response
-import br.com.tcc.petsus.domain.model.api.address.response.StateResponse.Companion.response
 import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
 import br.com.tcc.petsus.domain.repository.address.AddressRepository
 import br.com.tcc.petsus.domain.repository.address.CityRepository
@@ -52,14 +52,14 @@ class AddressUseCaseImpl @Autowired constructor(
         return ProcessResultImpl.successful(null, status = HttpStatus.NO_CONTENT)
     }
 
-    override fun update(id: Long, element: br.com.tcc.petsus.domain.model.api.address.request.AddressRequest): ProcessResult {
+    override fun update(id: Long, element: AddressRequest): ProcessResult {
         val city = cityRepository.findById(element.cityId.getOrThrow())
         if (city.isEmpty)
             return ProcessResultImpl.error(ErrorResponse(message = CITY_NOT_EXIST, data = element.cityId))
 
 
         val address = addressRepository.findById(id)
-        if (address.isEmpty || address.get().userId != currentUser().id)
+        if (address.isEmpty || address.get().userId != currentUser.authorizationId)
             return ProcessResultImpl.error(ErrorResponse(message = ADDRESS_NOT_FOUND, data = id))
 
         val newAddress = address.get()
@@ -79,8 +79,8 @@ class AddressUseCaseImpl @Autowired constructor(
         return ProcessResultImpl.successful(newAddress.response(), status = HttpStatus.CREATED)
     }
 
-    override fun create(element: br.com.tcc.petsus.domain.model.api.address.request.AddressRequest, uriBuilder: UriComponentsBuilder): ProcessResult {
-        val userId = currentUser().id
+    override fun create(element: AddressRequest, uriBuilder: UriComponentsBuilder): ProcessResult {
+        val userId = currentUser.authorizationId
 
         val city = cityRepository.findById(element.cityId.getOrThrow())
         if (city.isEmpty)

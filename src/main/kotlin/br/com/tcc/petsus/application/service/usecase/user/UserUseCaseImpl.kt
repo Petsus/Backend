@@ -3,6 +3,9 @@ package br.com.tcc.petsus.application.service.usecase.user
 import br.com.tcc.petsus.application.result.ProcessResultImpl
 import br.com.tcc.petsus.application.util.currentUser
 import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
+import br.com.tcc.petsus.domain.model.api.user.request.UserUpdateRequest
+import br.com.tcc.petsus.domain.model.api.user.request.UserUpdateRequest.Companion.entity
+import br.com.tcc.petsus.domain.model.database.user.types.User
 import br.com.tcc.petsus.domain.repository.user.AuthenticationRepository
 import br.com.tcc.petsus.domain.repository.user.UserRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
@@ -57,6 +60,21 @@ class UserUseCaseImpl @Autowired constructor(
         }
         return ProcessResultImpl.error(null, status = HttpStatus.NOT_FOUND)
     }
+
+    override fun updateUser(userUpdateRequest: UserUpdateRequest): ProcessResult {
+        val findUser = authenticationRepository.findById(currentUser.authorizationId)
+        if (findUser.isEmpty)
+            return ProcessResultImpl.error(error = ErrorResponse(message = USER_NOT_FOUND, data = USER_NOT_FOUND))
+
+        when (val user = findUser.get()) {
+            is User -> {
+                userRepository.save(userUpdateRequest.entity(user))
+            }
+        }
+
+        return ProcessResultImpl.successful(data = null)
+    }
+
     companion object {
         private const val USER_NOT_FOUND = "User not found"
     }

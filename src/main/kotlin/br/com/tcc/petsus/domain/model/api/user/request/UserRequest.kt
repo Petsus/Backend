@@ -3,6 +3,7 @@ package br.com.tcc.petsus.domain.model.api.user.request
 import br.com.tcc.petsus.domain.model.database.user.types.User
 import br.com.tcc.petsus.domain.model.database.user.role.Roles
 import com.google.gson.annotations.SerializedName
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.*
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty
@@ -17,9 +18,7 @@ data class UserRequest(
 ) {
     companion object {
         @JvmStatic
-        fun UserRequest.entity(
-            roles: List<Roles>,
-        ): User {
+        fun UserRequest.entity(): User {
             val currentDate = Date()
             return User(
                 id = 0,
@@ -29,10 +28,10 @@ data class UserRequest(
                 emailVerified = null,
                 phoneVerified = null,
             ).apply {
-//                this.roles.addAll(roles)
-//                this.name = this@entity.name
-//                this.email = this@entity.email
-//                this.password = BCryptPasswordEncoder().encode(this@entity.password)
+                this.enable = true
+                this.name = this@entity.name
+                this.email = this@entity.email
+                this.userPassword = BCryptPasswordEncoder().encode(this@entity.password)
             }
         }
     }

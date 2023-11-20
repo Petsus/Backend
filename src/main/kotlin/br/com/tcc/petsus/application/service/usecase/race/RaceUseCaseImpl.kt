@@ -10,7 +10,6 @@ import br.com.tcc.petsus.domain.repository.specie.SpecieRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.usecase.animal.race.RaceUseCase
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.util.UriComponentsBuilder
@@ -20,8 +19,12 @@ class RaceUseCaseImpl @Autowired constructor(
     @Autowired private val raceRepository: RaceRepository,
     @Autowired private val specieRepository: SpecieRepository,
 ) : RaceUseCase {
-    override fun list(page: Pageable): ProcessResult {
-        return ProcessResultImpl.successful(data = raceRepository.findAll(page).map { race -> race.response() })
+    override fun list(): ProcessResult {
+        return ProcessResultImpl.successful(data = raceRepository.findAll().map { race -> race.response() })
+    }
+
+    override fun listForSpecie(specieId: Long): ProcessResult {
+        return ProcessResultImpl.successful(data = raceRepository.findBySpecie(specieId).map { race -> race.response() })
     }
 
     override fun create(request: RaceRequest, uriComponentsBuilder: UriComponentsBuilder): ProcessResult {

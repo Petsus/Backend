@@ -8,4 +8,5 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 interface ErrorHandlerService {
     fun handle(exception: MethodArgumentNotValidException): ErrorResponse<List<ErrorField>>
     fun handle(exception: HttpRequestMethodNotSupportedException): ErrorResponse<String>
+    fun handle(exception: Throwable): ErrorResponse<String>
 }

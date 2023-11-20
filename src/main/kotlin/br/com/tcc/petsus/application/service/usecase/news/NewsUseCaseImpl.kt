@@ -7,6 +7,7 @@ import br.com.tcc.petsus.domain.model.api.news.request.NewsRequest.Companion.ent
 import br.com.tcc.petsus.domain.model.api.news.response.NewsResponse
 import br.com.tcc.petsus.domain.model.api.news.response.NewsResponse.Companion.response
 import br.com.tcc.petsus.domain.model.database.user.types.TownHallUser
+import br.com.tcc.petsus.domain.model.database.user.types.User
 import br.com.tcc.petsus.domain.repository.news.NewsRepository
 import br.com.tcc.petsus.domain.repository.townhall.TownHallRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
@@ -18,7 +19,7 @@ import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.util.UriComponentsBuilder
-import java.util.UUID
+import java.util.*
 import javax.transaction.Transactional
 
 @Component
@@ -27,8 +28,14 @@ class NewsUseCaseImpl @Autowired constructor(
     @Autowired private val townHallRepository: TownHallRepository,
     @Autowired private val storeService: StorageService,
 ) : NewsUseCase {
-    override fun list(): ProcessResult =
-        ProcessResultImpl.successful(data = newsRepository.list(userId = currentUser().id).map { news -> news.response() })
+    override fun list(): ProcessResult {
+        val userId = when (val user = currentUser) {
+            is User -> user.authorizationId
+            else -> return ProcessResultImpl.successful(data = emptyList<NewsResponse>())
+        }
+
+        return ProcessResultImpl.successful(data = newsRepository.list(userId = userId).map { news -> news.response() })
+    }
 
     @Transactional
     override fun create(

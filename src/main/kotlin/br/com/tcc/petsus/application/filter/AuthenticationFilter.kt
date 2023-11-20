@@ -1,7 +1,6 @@
 package br.com.tcc.petsus.application.filter
 
 import br.com.tcc.petsus.domain.repository.user.AuthenticationRepository
-import br.com.tcc.petsus.domain.repository.user.UserRepository
 import br.com.tcc.petsus.domain.services.security.TokenService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder

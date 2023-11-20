@@ -39,4 +39,12 @@ class ErrorHandlerServiceImpl @Autowired constructor(
         )
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(Throwable::class)
+    override fun handle(exception: Throwable): ErrorResponse<String> {
+        return ErrorResponse(
+            message = "Error",
+            data = "Error"
+        )
+    }
 }

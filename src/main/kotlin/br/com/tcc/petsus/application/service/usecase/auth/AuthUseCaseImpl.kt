@@ -10,8 +10,10 @@ import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
 import br.com.tcc.petsus.domain.model.api.user.request.UserRequest
 import br.com.tcc.petsus.domain.model.api.user.request.UserRequest.Companion.entity
 import br.com.tcc.petsus.domain.model.database.auth.Verification
+import br.com.tcc.petsus.domain.model.database.user.role.UserRoles
 import br.com.tcc.petsus.domain.repository.role.RolesRepository
 import br.com.tcc.petsus.domain.repository.notification.VerificationRepository
+import br.com.tcc.petsus.domain.repository.role.UserRoleRepository
 import br.com.tcc.petsus.domain.repository.user.UserRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.handler.EmailHandlerService
@@ -33,10 +35,11 @@ class AuthUseCaseImpl @Autowired constructor(
     @Autowired private val tokenService: TokenService,
     @Autowired private val userRepository: UserRepository,
     @Autowired private val rolesRepository: RolesRepository,
+    @Autowired private val userRoleRepository: UserRoleRepository,
     @Autowired private val emailConfiguration: EmailConfiguration,
     @Autowired private val emailHandlerService: EmailHandlerService,
-    @Autowired private val verificationRepository: VerificationRepository,
-    @Autowired private val authenticationManager: AuthenticationManager
+    @Autowired private val authenticationManager: AuthenticationManager,
+    @Autowired private val verificationRepository: VerificationRepository
 ) : AuthUseCase {
     override fun auth(auth: AuthRequest): ProcessResult {
         runCatching {
@@ -57,7 +60,13 @@ class AuthUseCaseImpl @Autowired constructor(
         if (userRepository.findByEmail(user.email).isPresent)
             return ProcessResultImpl.error(error = ErrorResponse(message = EMAIL_UNAVAILABLE, data = null))
 
-        val userSaved = userRepository.saveAndFlush(user.entity(roles = listOf(rolesRepository.user())))
+        val userSaved = userRepository.save(user.entity())
+        userRoleRepository.save(
+            rolesRepository.user().run {
+                UserRoles(this.id, userSaved.createdAt, userSaved.authorizationId, 0)
+            }
+        )
+
         val time = GregorianCalendar().run {
             time = Date()
             add(GregorianCalendar.HOUR, 3)
@@ -68,11 +77,12 @@ class AuthUseCaseImpl @Autowired constructor(
             Verification(id = 0, expirationDate = time, token = UUID.randomUUID().toString(), user = userSaved, Verification.Type.EMAIL)
         )
 
+        val currentUser = userRepository.findById(userSaved.authorizationId).get()
         runCatching {
-            authenticationManager.authenticate(UsernamePasswordAuthenticationToken(userSaved.email, user.password))
+            authenticationManager.authenticate(UsernamePasswordAuthenticationToken(currentUser.email, user.password))
         }.onSuccess { authenticate ->
             return ProcessResultImpl.successful(data = tokenService.generateToken(authenticate), status = HttpStatus.CREATED)
-                .location(uriBuilder.path("/user/{id}").buildAndExpand(userSaved.id).toUri())
+                .location(uriBuilder.path("/user/{id}").buildAndExpand(userSaved.authorizationId).toUri())
         }
 
         return ProcessResultImpl.error(null)

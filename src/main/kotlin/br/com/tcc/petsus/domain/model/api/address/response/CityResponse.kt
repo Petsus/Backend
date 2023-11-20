@@ -7,11 +7,11 @@ data class CityResponse(
     @SerializedName("id") val id: Long,
     @SerializedName("name") val name: String,
     @SerializedName("ibgeId") val ibgeId: Int,
-    @SerializedName("stateId") val stateId: Long
+    @SerializedName("state") val state: StateResponse,
 ) {
     companion object {
         @JvmStatic
-        fun City.response(): CityResponse =
-            CityResponse(id = id, name = name, ibgeId = ibgeId, stateId = state.id)
+        fun City.response(state: StateResponse): CityResponse =
+            CityResponse(id = id, name = name, ibgeId = ibgeId, state = state)
     }
 }

@@ -16,12 +16,10 @@ interface ClinicRepository : JpaRepository<Clinic, Long> {
                 "a.lng AS lng, " +
                 "SQRT(POW(69.1 * (:latitude - a.lat), 2) + POW(69.1 * (a.lng - :longitude) * COS(:latitude / 57.3), 2)) AS distance " +
                 "FROM clinic c " +
-                "INNER JOIN clinic_address ca " +
-                "ON ca.clinic_id = c.id " +
                 "INNER JOIN address a " +
-                "ON a.id = ca.address_id " +
-                "HAVING distance <= 50 " +
-                "ORDER BY :distanceMiller",
+                "ON a.id = c.address_id " +
+                "HAVING distance <= :distanceMiller " +
+                "ORDER BY distance",
         nativeQuery = true
     )
     fun findNear(latitude: Double, longitude: Double, distanceMiller: Double): List<ClinicAddress>

@@ -9,7 +9,6 @@ data class RaceResponse(
 ) {
     companion object {
         @JvmStatic
-        fun Race.response(): br.com.tcc.petsus.domain.model.api.animal.response.RaceResponse =
-            br.com.tcc.petsus.domain.model.api.animal.response.RaceResponse(id = id, name = name)
+        fun Race.response(): RaceResponse = RaceResponse(id = id, name = name)
     }
 }

@@ -26,7 +26,7 @@ data class AddressResponse(
                 lng = lng,
                 number = number,
                 address = address,
-                city = city.response(),
+                city = city.response(state = city.state.response()),
                 state = city.state.response(),
                 complement = complement,
                 postalCode = postalCode,
