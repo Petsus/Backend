@@ -11,7 +11,7 @@ data class Address(
     @Column(name = "created_at") val createdAt: Date,
     @Column(name = "updated_at") val updatedAt: Date,
     @Column(name = "address") var address: String,
-    @Column(name = "number") var number: Int,
+    @Column(name = "number") var number: Long,
     @Column(name = "complement") var complement: String?,
     @Column(name = "neighborhood") var neighborhood: String,
     @Column(name = "lat") var lat: Double,
