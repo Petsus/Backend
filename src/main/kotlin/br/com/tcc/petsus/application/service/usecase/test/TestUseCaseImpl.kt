@@ -1,11 +1,11 @@
 package br.com.tcc.petsus.application.service.usecase.test
 
+import br.com.tcc.petsus.application.util.getInputStreamResource
 import br.com.tcc.petsus.domain.model.api.email.request.SendEmailRequest
 import br.com.tcc.petsus.domain.services.handler.EmailHandlerService
 import br.com.tcc.petsus.domain.services.usecase.test.TestUseCase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import org.springframework.util.ResourceUtils
 import org.springframework.web.util.UriComponentsBuilder
 
 @Component
@@ -14,7 +14,7 @@ class TestUseCaseImpl @Autowired constructor(
 ) : TestUseCase {
     override fun sendEmail(sendEmailRequest: SendEmailRequest, uriBuilder: UriComponentsBuilder) {
         runCatching {
-            ResourceUtils.getFile("classpath:mail.html").inputStream().bufferedReader().readText()
+            "mail.html".getInputStreamResource().bufferedReader().readText()
         }.onSuccess { htmlText ->
             val link = uriBuilder.path("/user/change-password")
                 .queryParam("email", sendEmailRequest.emailTo)

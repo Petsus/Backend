@@ -1,6 +1,7 @@
 package br.com.tcc.petsus.application.service.usecase.auth
 
 import br.com.tcc.petsus.application.result.ProcessResultImpl
+import br.com.tcc.petsus.application.util.getInputStreamResource
 import br.com.tcc.petsus.domain.model.api.auth.request.AuthRequest
 import br.com.tcc.petsus.domain.model.api.auth.request.AuthRequest.Companion.authToken
 import br.com.tcc.petsus.domain.model.api.auth.request.ChangePasswordRequest
@@ -11,8 +12,8 @@ import br.com.tcc.petsus.domain.model.api.user.request.UserRequest
 import br.com.tcc.petsus.domain.model.api.user.request.UserRequest.Companion.entity
 import br.com.tcc.petsus.domain.model.database.auth.Verification
 import br.com.tcc.petsus.domain.model.database.user.role.UserRoles
-import br.com.tcc.petsus.domain.repository.database.role.RolesRepository
 import br.com.tcc.petsus.domain.repository.database.notification.VerificationRepository
+import br.com.tcc.petsus.domain.repository.database.role.RolesRepository
 import br.com.tcc.petsus.domain.repository.database.role.UserRoleRepository
 import br.com.tcc.petsus.domain.repository.database.user.UserRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
@@ -26,7 +27,6 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
-import org.springframework.util.ResourceUtils
 import org.springframework.web.util.UriComponentsBuilder
 import java.util.*
 
@@ -100,7 +100,7 @@ class AuthUseCaseImpl @Autowired constructor(
             Verification(id = 0, expirationDate = timeExpiration, token = UUID.randomUUID().toString(), user = user.get(), Verification.Type.PASSWORD_RESET)
         )
 
-        val htmlString = ResourceUtils.getFile("classpath:mail.html").inputStream().bufferedReader().readText()
+        val htmlString = "mail.html".getInputStreamResource().bufferedReader().readText()
 
         val link = uriBuilder.path("/user/change-password")
             .queryParam("email", request.email)
