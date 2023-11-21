@@ -21,7 +21,7 @@ data class AddressRequest(
 ) {
     companion object {
         @JvmStatic
-        fun br.com.tcc.petsus.domain.model.api.address.request.AddressRequest.entity(
+        fun AddressRequest.entity(
             city: City,
             userId: Long,
         ): Address {
