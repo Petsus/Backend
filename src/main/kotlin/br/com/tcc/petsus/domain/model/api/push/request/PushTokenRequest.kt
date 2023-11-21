@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 data class PushTokenRequest(
-    @SerializedName("token") @NotNull @NotBlank var token: String
+    @SerializedName("token") @NotNull @NotBlank var token: String,
 ) {
     companion object {
         @JvmStatic

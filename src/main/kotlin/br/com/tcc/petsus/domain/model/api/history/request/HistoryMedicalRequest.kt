@@ -8,8 +8,8 @@ import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class HistoryMedicalRequest(
-    @SerializedName("examsId") val exam: Long?,
-    @SerializedName("vaccineId") val vaccine: Long?,
+    @SerializedName("examsId") val examsId: Long?,
+    @SerializedName("vaccineId") val vaccineId: Long?,
     @SerializedName("veterinary") val veterinary: String,
     @SerializedName("animalId") val animalId: Long,
 ) {
@@ -29,7 +29,6 @@ data class HistoryMedicalRequest(
                 updatedAt = currentDate,
                 clinic = null,
                 animal = animal,
-                //veterinary = null,
                 vaccine = vaccine,
                 exam = exam
             )

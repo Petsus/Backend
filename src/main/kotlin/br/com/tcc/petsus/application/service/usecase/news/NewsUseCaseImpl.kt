@@ -8,8 +8,8 @@ import br.com.tcc.petsus.domain.model.api.news.response.NewsResponse
 import br.com.tcc.petsus.domain.model.api.news.response.NewsResponse.Companion.response
 import br.com.tcc.petsus.domain.model.database.user.types.TownHallUser
 import br.com.tcc.petsus.domain.model.database.user.types.User
-import br.com.tcc.petsus.domain.repository.news.NewsRepository
-import br.com.tcc.petsus.domain.repository.townhall.TownHallRepository
+import br.com.tcc.petsus.domain.repository.database.news.NewsRepository
+import br.com.tcc.petsus.domain.repository.database.townhall.TownHallRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.file.StorageService
 import br.com.tcc.petsus.domain.services.usecase.news.NewsUseCase

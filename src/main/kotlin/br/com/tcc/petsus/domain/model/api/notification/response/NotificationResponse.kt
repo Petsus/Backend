@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class NotificationResponse(
     @SerializedName("title") val title: String,
     @SerializedName("subtitle") val subtitle: String,
-    @SerializedName("notificationID") val notificationId: String,
+    @SerializedName("notificationID") val notificationId: String?,
 ) {
     companion object {
         @JvmStatic

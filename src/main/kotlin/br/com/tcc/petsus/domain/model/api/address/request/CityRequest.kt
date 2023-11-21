@@ -12,10 +12,10 @@ data class CityRequest(
 ) {
     companion object {
         @JvmStatic
-        fun CityRequest.entity(state: State, id: Int = 0, createdAt: Date? = null): City {
+        fun CityRequest.entity(state: State, id: Long = 0, createdAt: Date? = null): City {
             val currentDate = Date()
             return City(
-                id = 0,
+                id = id,
                 createdAt = createdAt ?: currentDate,
                 updatedAt = currentDate,
                 name = name,

@@ -4,7 +4,7 @@ import br.com.tcc.petsus.application.result.ProcessResultImpl
 import br.com.tcc.petsus.domain.model.api.vaccine.request.VaccineRequest
 import br.com.tcc.petsus.domain.model.api.vaccine.request.VaccineRequest.Companion.entity
 import br.com.tcc.petsus.domain.model.api.vaccine.response.VaccineResponse.Companion.response
-import br.com.tcc.petsus.domain.repository.vaccine.VaccineRepository
+import br.com.tcc.petsus.domain.repository.database.vaccine.VaccineRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.usecase.history.vaccine.VaccineUseCase
 import org.springframework.beans.factory.annotation.Autowired

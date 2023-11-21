@@ -1,7 +1,7 @@
 package br.com.tcc.petsus.application.service.security
 
-import br.com.tcc.petsus.domain.repository.user.AuthenticationRepository
-import br.com.tcc.petsus.domain.repository.user.UserRepository
+import br.com.tcc.petsus.domain.repository.database.user.AuthenticationRepository
+import br.com.tcc.petsus.domain.repository.database.user.UserRepository
 import br.com.tcc.petsus.domain.services.security.AuthenticationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails

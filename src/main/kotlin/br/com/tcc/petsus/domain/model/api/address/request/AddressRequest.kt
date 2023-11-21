@@ -13,7 +13,6 @@ data class AddressRequest(
     @SerializedName("lat") @NotNull val lat: Double,
     @SerializedName("lng") @NotNull val lng: Double,
     @SerializedName("number") @NotNull var number: Long,
-    @SerializedName("cityId") @NotNull val cityId: Long? = null,
     @SerializedName("complement") var complement: String? = null,
     @SerializedName("address") @NotNull @NotBlank var address: String,
     @SerializedName("neighborhood") @NotNull @NotBlank var neighborhood: String,

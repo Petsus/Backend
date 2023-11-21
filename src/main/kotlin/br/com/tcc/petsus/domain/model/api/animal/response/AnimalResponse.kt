@@ -1,6 +1,8 @@
 package br.com.tcc.petsus.domain.model.api.animal.response
 
+import br.com.tcc.petsus.application.util.string
 import br.com.tcc.petsus.domain.model.api.animal.response.RaceResponse.Companion.response
+import br.com.tcc.petsus.domain.model.api.specie.response.SpecieResponse.Companion.response
 import br.com.tcc.petsus.domain.model.database.animal.Animal
 import com.google.gson.annotations.SerializedName
 import org.springframework.web.util.UriComponentsBuilder
@@ -14,8 +16,10 @@ data class AnimalResponse(
     @SerializedName("height") val height: Int,
     @SerializedName("race") val race: RaceResponse,
     @SerializedName("birthday") val birthday: Date?,
-    @SerializedName("createdAt") val createdAt: Date,
-    @SerializedName("updatedAt") val updatedAt: Date,
+    @SerializedName("createdAt") val createdAt: String,
+    @SerializedName("updatedAt") val updatedAt: String,
+    @SerializedName("addressId") var addressId: Long,
+    @SerializedName("qrcode") val qrCode: String?
 ) {
     companion object {
         @JvmStatic
@@ -27,9 +31,11 @@ data class AnimalResponse(
                 weight = weight,
                 height = height,
                 birthday = birthday,
-                createdAt = createdAt,
-                updatedAt = updatedAt,
-                race = race.response(),
+                createdAt = createdAt.string(),
+                updatedAt = updatedAt.string(),
+                race = race.response(specie = race.specie.response()),
+                addressId = addressId,
+                qrCode = qrCodes.firstOrNull()?.qrCode
             )
     }
 }

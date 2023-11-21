@@ -21,3 +21,6 @@ val currentUser: AuthorizationUser
 
 fun String.toDate(pattern: String = "dd/MM/yyyy"): Date =
     SimpleDateFormat(pattern).parse(this)
+
+fun Date.string(pattern: String = "yyyy-MM-dd HH:mm:ss"): String =
+    SimpleDateFormat(pattern).format(this)

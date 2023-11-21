@@ -5,7 +5,7 @@ import br.com.tcc.petsus.domain.model.api.address.request.StateRequest
 import br.com.tcc.petsus.domain.model.api.address.request.StateRequest.Companion.entity
 import br.com.tcc.petsus.domain.model.api.address.response.StateResponse.Companion.response
 import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
-import br.com.tcc.petsus.domain.repository.address.StateRepository
+import br.com.tcc.petsus.domain.repository.database.address.StateRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.usecase.address.StateUseCase
 import org.springframework.http.HttpStatus

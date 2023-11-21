@@ -1,12 +1,10 @@
 package br.com.tcc.petsus.application.service.usecase.specie
 
 import br.com.tcc.petsus.application.result.ProcessResultImpl
-import br.com.tcc.petsus.application.util.currentUser
 import br.com.tcc.petsus.domain.model.api.specie.request.SpecieRequest
 import br.com.tcc.petsus.domain.model.api.specie.request.SpecieRequest.Companion.entity
 import br.com.tcc.petsus.domain.model.api.specie.response.SpecieResponse.Companion.response
-import br.com.tcc.petsus.domain.model.database.user.types.AdmUser
-import br.com.tcc.petsus.domain.repository.specie.SpecieRepository
+import br.com.tcc.petsus.domain.repository.database.specie.SpecieRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.usecase.animal.specie.SpecieUseCase
 import org.springframework.beans.factory.annotation.Autowired

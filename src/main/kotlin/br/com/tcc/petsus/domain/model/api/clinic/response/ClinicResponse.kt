@@ -15,6 +15,8 @@ data class ClinicResponse(
     @SerializedName("updatedAt") val updatedAt: Date,
     @SerializedName("address") val address: AddressResponse,
     @SerializedName("species") val species: List<Specie>,
+    @SerializedName("site") val site: String?,
+    @SerializedName("phone") val phone: String?,
     @SerializedName("exams") val exams: List<Exam>
 ) {
     companion object {
@@ -27,7 +29,9 @@ data class ClinicResponse(
                 updatedAt = updatedAt,
                 address = address.response(),
                 species = species.toList(),
-                exams = exams.toList()
+                exams = exams.toList(),
+                phone = phone,
+                site = site,
             )
     }
 }

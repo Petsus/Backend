@@ -12,8 +12,8 @@ interface AnimalUseCase : BaseUseCase<AnimalRequest> {
     fun putImage(file: MultipartFile, id: Long): ProcessResult
     fun getAnimalForTagId(tagId: String, uriComponentsBuilder: UriComponentsBuilder): ProcessResult
     fun find(id: Long, uriComponentsBuilder: UriComponentsBuilder): ProcessResult
+    fun list(uriComponentsBuilder: UriComponentsBuilder): ProcessResult
     override fun find(id: Long): ProcessResult { throw Throwable() }
     fun getImage(animalId: Long): ProcessResult
     fun notifyAnimalFounded(lat: Double, lng: Double, animalId: Long, uriComponentsBuilder: UriComponentsBuilder): ProcessResult
-
 }

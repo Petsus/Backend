@@ -14,10 +14,10 @@ data class Notification(
     @Column(name = "title") var title: String,
     @Column(name = "subtitle") var subtitle: String,
     @Column(name = "image") var image: String?,
-    @Column(name = "user_id") var userId: Long,
+    @Column(name = "user_id") var userId: Long?,
     @Column(name = "lat") var lat: Double?,
     @Column(name = "lng") var lng: Double?,
-    @Column(name = "notification_id") var notificationId: String,
+    @Column(name = "notification_id") var notificationId: String?,
     @ManyToOne @JoinColumn(name = "animal_id") var animal: Animal?
 ) {
     override fun equals(other: Any?): Boolean {

@@ -6,10 +6,10 @@ import br.com.tcc.petsus.domain.model.api.news.response.NewsResponse
 import br.com.tcc.petsus.domain.model.api.news.response.NewsResponse.Companion.response
 import br.com.tcc.petsus.domain.model.database.user.types.ClinicUser
 import br.com.tcc.petsus.domain.model.database.user.types.TownHallUser
-import br.com.tcc.petsus.domain.repository.address.CityRepository
-import br.com.tcc.petsus.domain.repository.clinic.ClinicRepository
-import br.com.tcc.petsus.domain.repository.news.NewsRepository
-import br.com.tcc.petsus.domain.repository.townhall.TownHallRepository
+import br.com.tcc.petsus.domain.repository.database.address.CityRepository
+import br.com.tcc.petsus.domain.repository.database.clinic.ClinicRepository
+import br.com.tcc.petsus.domain.repository.database.news.NewsRepository
+import br.com.tcc.petsus.domain.repository.database.townhall.TownHallRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.usecase.dashboard.DashboardUseCase
 import org.springframework.beans.factory.annotation.Autowired

@@ -56,6 +56,8 @@ dependencies {
     implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
 
+    implementation("org.springframework:spring-web")
+
     implementation("com.google.firebase:firebase-admin:9.1.1")
 }
 

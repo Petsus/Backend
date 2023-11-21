@@ -6,8 +6,8 @@ import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
 import br.com.tcc.petsus.domain.model.api.user.request.UserUpdateRequest
 import br.com.tcc.petsus.domain.model.api.user.request.UserUpdateRequest.Companion.entity
 import br.com.tcc.petsus.domain.model.database.user.types.User
-import br.com.tcc.petsus.domain.repository.user.AuthenticationRepository
-import br.com.tcc.petsus.domain.repository.user.UserRepository
+import br.com.tcc.petsus.domain.repository.database.user.AuthenticationRepository
+import br.com.tcc.petsus.domain.repository.database.user.UserRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.file.StorageService
 import br.com.tcc.petsus.domain.services.usecase.auth.user.UserUseCase
@@ -33,14 +33,14 @@ class UserUseCaseImpl @Autowired constructor(
 
     override fun get(id: Long): ProcessResult {
         val findUser = userRepository.findById(id)
-        if (findUser.isEmpty || findUser.get().id != currentUser().id)
+        if (findUser.isEmpty || findUser.get().id != currentUser.authorizationId)
             return ProcessResultImpl.error(error = ErrorResponse(message = USER_NOT_FOUND, data = id))
         return ProcessResultImpl.successful(findUser.get())
     }
 
     override fun remove(id: Long): ProcessResult {
         val findUser = userRepository.findById(id)
-        if (findUser.isEmpty || findUser.get().id != currentUser().id)
+        if (findUser.isEmpty || findUser.get().id != currentUser.authorizationId)
             return ProcessResultImpl.error(error = ErrorResponse(message = USER_NOT_FOUND, data = id))
 
         //TODO: Delete all related with user
@@ -50,13 +50,13 @@ class UserUseCaseImpl @Autowired constructor(
     }
 
     override fun putImage(file: MultipartFile): ProcessResult {
-        storageService.save(file, "user/${currentUser().id}")
+        storageService.save(file, "user/${currentUser.authorizationId}")
         return ProcessResultImpl.successful(null, status = HttpStatus.CREATED)
     }
 
     override fun getImage(): ProcessResult {
         runCatching {
-            return ProcessResultImpl.resource(storageService.get("user/${currentUser().id}"), mediaType = MediaType.IMAGE_JPEG)
+            return ProcessResultImpl.resource(storageService.get("user/${currentUser.authorizationId}"), mediaType = MediaType.IMAGE_JPEG)
         }
         return ProcessResultImpl.error(null, status = HttpStatus.NOT_FOUND)
     }

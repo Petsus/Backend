@@ -4,7 +4,7 @@ import br.com.tcc.petsus.application.result.ProcessResultImpl
 import br.com.tcc.petsus.domain.model.api.exam.request.ExamRequest
 import br.com.tcc.petsus.domain.model.api.exam.request.ExamRequest.Companion.entity
 import br.com.tcc.petsus.domain.model.api.exam.response.ExamResponse.Companion.response
-import br.com.tcc.petsus.domain.repository.exam.ExamRepository
+import br.com.tcc.petsus.domain.repository.database.exam.ExamRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.usecase.history.exam.ExamUseCase
 import org.springframework.beans.factory.annotation.Autowired

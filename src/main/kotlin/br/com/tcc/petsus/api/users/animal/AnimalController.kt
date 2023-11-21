@@ -16,26 +16,34 @@ class AnimalController @Autowired constructor(
     @GetMapping("/qrcode/{id}")
     fun registerQrCode(@PathVariable("id") animalId: Long) =
         useCase.registerQrCode(animalId = animalId).response()
+
     @DeleteMapping("qrcode/{id}")
     fun unregisterQrcOde(@PathVariable("id") qrCode: String) =
         useCase.unregisterQrCode(qrCode)
+
     @PutMapping("image/{id}")
     fun putImage(@PathVariable("id") id: Long, @RequestParam("file") file: MultipartFile) =
         useCase.putImage(file, id).response()
+
     @GetMapping("/image/{id}")
     fun getImage(@PathVariable("id") id: Long) =
         useCase.getImage(id).response()
+
     @GetMapping("/tag/{tagId}")
     fun getAnimalForTag(@PathVariable("tagId") tagId: String, uriComponentsBuilder: UriComponentsBuilder) =
         useCase.getAnimalForTagId(tagId, uriComponentsBuilder).response()
+
     @GetMapping
-    fun all() = useCase.list().response()
+    fun all(uriComponentsBuilder: UriComponentsBuilder) = useCase.list(uriComponentsBuilder).response()
+
     @GetMapping("/{id}")
     fun find(@PathVariable("id") id: Long, uriComponentsBuilder: UriComponentsBuilder) =
         useCase.find(id, uriComponentsBuilder).response()
+
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Long) =
         useCase.delete(id)
+
     @PostMapping
     fun create(@RequestBody @Valid body: AnimalRequest, uriComponentsBuilder: UriComponentsBuilder) =
         useCase.create(body, uriComponentsBuilder).response()
@@ -43,6 +51,7 @@ class AnimalController @Autowired constructor(
     @PutMapping("/{id}")
     fun update(@PathVariable("id") id: Long, @RequestBody @Valid body: AnimalRequest) =
         useCase.update(id, body).response()
+
     @PostMapping("/found")
     fun notifyAnimalFound(
         @RequestParam(name = "lat") lat: Double,

@@ -6,9 +6,9 @@ import br.com.tcc.petsus.domain.model.api.veterinary.response.VeterinaryDetailsR
 import br.com.tcc.petsus.domain.model.api.veterinary.response.VeterinaryListResponse
 import br.com.tcc.petsus.domain.model.database.user.types.ClinicUser
 import br.com.tcc.petsus.domain.model.database.user.types.TownHallUser
-import br.com.tcc.petsus.domain.repository.clinic.ClinicRepository
-import br.com.tcc.petsus.domain.repository.townhall.TownHallRepository
-import br.com.tcc.petsus.domain.repository.user.VeterinaryUserRepository
+import br.com.tcc.petsus.domain.repository.database.clinic.ClinicRepository
+import br.com.tcc.petsus.domain.repository.database.townhall.TownHallRepository
+import br.com.tcc.petsus.domain.repository.database.user.VeterinaryUserRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.file.StorageService
 import br.com.tcc.petsus.domain.services.usecase.veterinary.VeterinaryUseCse

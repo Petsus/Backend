@@ -6,10 +6,10 @@ import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
 import br.com.tcc.petsus.domain.model.api.history.request.HistoryMedicalRequest
 import br.com.tcc.petsus.domain.model.api.history.request.HistoryMedicalRequest.Companion.entity
 import br.com.tcc.petsus.domain.model.api.history.response.MedicRecordResponse.Companion.response
-import br.com.tcc.petsus.domain.repository.animal.AnimalRepository
-import br.com.tcc.petsus.domain.repository.exam.ExamRepository
-import br.com.tcc.petsus.domain.repository.history.HistoryMedicalRepository
-import br.com.tcc.petsus.domain.repository.vaccine.VaccineRepository
+import br.com.tcc.petsus.domain.repository.database.animal.AnimalRepository
+import br.com.tcc.petsus.domain.repository.database.exam.ExamRepository
+import br.com.tcc.petsus.domain.repository.database.history.HistoryMedicalRepository
+import br.com.tcc.petsus.domain.repository.database.vaccine.VaccineRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.usecase.history.HistoryMedicalUseCase
 import org.springframework.http.HttpStatus
@@ -25,7 +25,7 @@ class HistoryMedicalUseCaseImpl(
 ) : HistoryMedicalUseCase {
     override fun list(uriComponentsBuilder: UriComponentsBuilder): ProcessResult {
         return ProcessResultImpl.successful(
-            data = historyMedicalRepository.list(userId = currentUser().id).map { history -> history.response(uriComponentsBuilder) }
+            data = historyMedicalRepository.list(userId = currentUser.authorizationId).map { history -> history.response(uriComponentsBuilder) }
         )
     }
 
@@ -45,14 +45,14 @@ class HistoryMedicalUseCaseImpl(
     }
 
     override fun create(element: HistoryMedicalRequest, uriBuilder: UriComponentsBuilder): ProcessResult {
-        val exam = element.exam?.let { examsRequest -> examRepository.findById(examsRequest).orElse(null) }
-        val vaccine = element.vaccine?.let { vaccineRequest -> vaccineRepository.findById(vaccineRequest).orElse(null) }
+        val exam = element.examsId?.let { examsRequest -> examRepository.findById(examsRequest).orElse(null) }
+        val vaccine = element.vaccineId?.let { vaccineRequest -> vaccineRepository.findById(vaccineRequest).orElse(null) }
 
         if (exam == null && vaccine == null)
             return ProcessResultImpl.error(error = ErrorResponse(data = null, message = TYPE_NOT_FOUND))
 
         val animal = animalRepository.findById(element.animalId)
-        if (animal.isEmpty || animal.get().user.id == currentUser().id)
+        if (animal.isEmpty || animal.get().userId != currentUser.authorizationId)
             return ProcessResultImpl.error(error = ErrorResponse(data = element.animalId, message = ANIMAL_NOT_FOUND))
 
         val history = historyMedicalRepository.save(element.entity(animal.get(), vaccine, exam))

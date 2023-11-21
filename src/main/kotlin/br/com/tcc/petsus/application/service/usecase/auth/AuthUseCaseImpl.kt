@@ -11,10 +11,10 @@ import br.com.tcc.petsus.domain.model.api.user.request.UserRequest
 import br.com.tcc.petsus.domain.model.api.user.request.UserRequest.Companion.entity
 import br.com.tcc.petsus.domain.model.database.auth.Verification
 import br.com.tcc.petsus.domain.model.database.user.role.UserRoles
-import br.com.tcc.petsus.domain.repository.role.RolesRepository
-import br.com.tcc.petsus.domain.repository.notification.VerificationRepository
-import br.com.tcc.petsus.domain.repository.role.UserRoleRepository
-import br.com.tcc.petsus.domain.repository.user.UserRepository
+import br.com.tcc.petsus.domain.repository.database.role.RolesRepository
+import br.com.tcc.petsus.domain.repository.database.notification.VerificationRepository
+import br.com.tcc.petsus.domain.repository.database.role.UserRoleRepository
+import br.com.tcc.petsus.domain.repository.database.user.UserRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.handler.EmailHandlerService
 import br.com.tcc.petsus.domain.services.security.TokenService

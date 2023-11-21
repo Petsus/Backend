@@ -1,7 +1,7 @@
 package br.com.tcc.petsus.infrastructure.security
 
 import br.com.tcc.petsus.application.filter.AuthenticationFilter
-import br.com.tcc.petsus.domain.repository.user.UserRepository
+import br.com.tcc.petsus.domain.repository.database.user.UserRepository
 import br.com.tcc.petsus.domain.services.security.AuthenticationService
 import br.com.tcc.petsus.domain.services.security.TokenService
 import org.springframework.context.annotation.Bean

@@ -8,8 +8,8 @@ import br.com.tcc.petsus.domain.model.api.clinic.response.ClinicDetailsResponse.
 import br.com.tcc.petsus.domain.model.api.clinic.response.ClinicListResponse
 import br.com.tcc.petsus.domain.model.api.clinic.response.ClinicResponse.Companion.response
 import br.com.tcc.petsus.domain.model.database.user.types.TownHallUser
-import br.com.tcc.petsus.domain.repository.clinic.ClinicRepository
-import br.com.tcc.petsus.domain.repository.townhall.TownHallRepository
+import br.com.tcc.petsus.domain.repository.database.clinic.ClinicRepository
+import br.com.tcc.petsus.domain.repository.database.townhall.TownHallRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.file.StorageService
 import br.com.tcc.petsus.domain.services.usecase.clinic.ClinicUseCase

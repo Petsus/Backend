@@ -5,8 +5,8 @@ import br.com.tcc.petsus.domain.model.api.animal.request.RaceRequest
 import br.com.tcc.petsus.domain.model.api.animal.request.RaceRequest.Companion.entity
 import br.com.tcc.petsus.domain.model.api.animal.response.RaceResponse.Companion.response
 import br.com.tcc.petsus.domain.model.api.error.response.ErrorResponse
-import br.com.tcc.petsus.domain.repository.race.RaceRepository
-import br.com.tcc.petsus.domain.repository.specie.SpecieRepository
+import br.com.tcc.petsus.domain.repository.database.race.RaceRepository
+import br.com.tcc.petsus.domain.repository.database.specie.SpecieRepository
 import br.com.tcc.petsus.domain.result.ProcessResult
 import br.com.tcc.petsus.domain.services.usecase.animal.race.RaceUseCase
 import org.springframework.beans.factory.annotation.Autowired

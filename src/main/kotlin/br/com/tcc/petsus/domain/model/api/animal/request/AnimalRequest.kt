@@ -3,6 +3,7 @@ package br.com.tcc.petsus.domain.model.api.animal.request
 import br.com.tcc.petsus.application.util.toDate
 import br.com.tcc.petsus.domain.model.database.animal.Animal
 import br.com.tcc.petsus.domain.model.database.animal.Race
+import br.com.tcc.petsus.domain.model.database.user.base.AuthorizationUser
 import br.com.tcc.petsus.domain.model.database.user.types.User
 import com.google.gson.annotations.SerializedName
 import java.util.*
@@ -17,12 +18,12 @@ data class AnimalRequest(
 ) {
     companion object {
         @JvmStatic
-        fun br.com.tcc.petsus.domain.model.api.animal.request.AnimalRequest.entity(
+        fun AnimalRequest.entity(
             id: Long = 0,
             createdAt: Date,
             updatedAt: Date,
             race: Race,
-            user: User
+            user: AuthorizationUser
         ): Animal =
             Animal(
                 id = id,
@@ -33,7 +34,9 @@ data class AnimalRequest(
                 height = height,
                 race = race,
                 birthday = birthday.toDate(),
-                user = user
+                userId = user.authorizationId,
+                addressId = addressId,
+                qrCodes = emptyList()
             )
     }
 }

@@ -14,5 +14,7 @@ class NotificationServiceImpl(
         firebaseMessaging.sendMulticast(message).successCount
 
     override fun send(message: Message): String? =
-        runCatching { firebaseMessaging.send(message) }.getOrNull()
+        runCatching { firebaseMessaging.send(message) }
+            .onFailure { it.printStackTrace() }
+            .getOrNull()
 }

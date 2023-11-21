@@ -1,7 +1,7 @@
 package br.com.tcc.petsus.infrastructure.security
 
 import br.com.tcc.petsus.application.filter.AuthenticationFilter
-import br.com.tcc.petsus.domain.repository.user.AuthenticationRepository
+import br.com.tcc.petsus.domain.repository.database.user.AuthenticationRepository
 import br.com.tcc.petsus.domain.services.security.AuthenticationService
 import br.com.tcc.petsus.domain.services.security.TokenService
 import org.springframework.context.annotation.Bean
@@ -43,6 +43,7 @@ class SecurityConfiguration (
             .antMatchers(HttpMethod.POST, "/exam/**").hasAuthority("ADM")
             .antMatchers(HttpMethod.POST, "/species/**").hasAuthority("ADM")
             .antMatchers(HttpMethod.POST, "/races/**").hasAuthority("ADM")
+            .antMatchers(HttpMethod.POST, "/notification/**").hasAuthority("ADM")
             .antMatchers(HttpMethod.GET, "/actuator/**").hasAuthority("ADM")
             .antMatchers(HttpMethod.POST, "/actuator/state").hasAuthority("ADM")
             .antMatchers(HttpMethod.POST, "/actuator/city").hasAuthority("ADM")

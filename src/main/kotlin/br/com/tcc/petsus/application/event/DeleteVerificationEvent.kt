@@ -1,6 +1,6 @@
 package br.com.tcc.petsus.application.event
 
-import br.com.tcc.petsus.domain.repository.notification.VerificationRepository
+import br.com.tcc.petsus.domain.repository.database.notification.VerificationRepository
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component

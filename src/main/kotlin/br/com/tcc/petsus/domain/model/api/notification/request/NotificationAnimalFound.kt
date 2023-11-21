@@ -17,7 +17,7 @@ data class NotificationAnimalFound(
         "Seu animal foi encontrado"
 
     fun image(): String =
-        uriComponentsBuilder.path("animal/race/{id}").buildAndExpand(animal.id).toString()
+        uriComponentsBuilder.cloneBuilder().path("animal/race/{id}").buildAndExpand(animal.id).toString()
 
     fun subtitle(): String =
         "O seu animal ${animal.name} foi encontrado, clique aqui para ver"

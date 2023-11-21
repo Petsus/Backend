@@ -1,6 +1,6 @@
 package br.com.tcc.petsus.domain.model.database.animal
 
-import br.com.tcc.petsus.domain.model.database.user.types.User
+import br.com.tcc.petsus.domain.model.database.qrcode.QrCode
 import org.hibernate.Hibernate
 import java.util.*
 import javax.persistence.*
@@ -15,8 +15,10 @@ data class Animal(
     @Column(name = "weight") var weight: Double,
     @Column(name = "height") var height: Int,
     @Column(name = "birthday") var birthday: Date?,
-    @ManyToOne @JoinColumn(name = "user_id") var user: User,
+    @Column(name = "user_id") var userId: Long,
+    @Column(name = "address_id") var addressId: Long,
     @ManyToOne @JoinColumn(name = "race_id") var race: Race,
+    @OneToMany(mappedBy = "animalId") val qrCodes: List<QrCode>
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -30,6 +32,6 @@ data class Animal(
 
     @Override
     override fun toString(): String {
-        return this::class.simpleName + "(id = $id , createdAt = $createdAt , updatedAt = $updatedAt , name = $name , weight = $weight , height = $height , birthday = $birthday , user = $user , race = $race )"
+        return this::class.simpleName + "(id = $id , createdAt = $createdAt , updatedAt = $updatedAt , name = $name , weight = $weight , height = $height , birthday = $birthday , user = $userId , race = $race )"
     }
 }

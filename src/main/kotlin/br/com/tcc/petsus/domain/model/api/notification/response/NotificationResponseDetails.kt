@@ -9,7 +9,7 @@ data class NotificationResponseDetails(
     @SerializedName("name") val name: String,
     @SerializedName("image") val image: String?,
     @SerializedName("address") val address: String,
-    @SerializedName("notificationID") val notificationID: String
+    @SerializedName("notificationID") val notificationID: String?
 ) {
     companion object {
         @JvmStatic
