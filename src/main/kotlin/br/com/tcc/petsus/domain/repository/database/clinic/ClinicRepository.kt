@@ -27,6 +27,6 @@ interface ClinicRepository : JpaRepository<Clinic, Long> {
     @Query("select clinic from Clinic clinic where clinic.admUser.id = :admUserId")
     fun findByAdmUser(admUserId: Long): Optional<Clinic>
 
-    @Query("select clinic form Clinic clinic where name like :name and (:cityId is null or clinic.address.id = :cityId)")
+    @Query("select clinic from Clinic clinic where name like :name and (:cityId is null or clinic.address.id = :cityId)")
     fun findByNameContains(name: String, cityId: Long?, pageable: PageRequest): List<Clinic>
 }
