@@ -16,10 +16,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import javax.servlet.http.HttpServletRequest
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfiguration (
+class SecurityConfiguration(
     private val userDetailsService: AuthenticationService,
     private val tokenService: TokenService,
     private val repository: AuthenticationRepository
@@ -50,6 +53,14 @@ class SecurityConfiguration (
             .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
             .anyRequest().authenticated()
             .and().csrf().disable()
+            .cors { cors ->
+                cors.configurationSource {
+                    CorsConfiguration().apply {
+                        addAllowedOrigin("https://petsus.app.br/")
+                        allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "PUT", "OPTIONS", "PATCH", "DELETE")
+                    }.applyPermitDefaultValues()
+                }
+            }
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().addFilterBefore(AuthenticationFilter(tokenService, repository), UsernamePasswordAuthenticationFilter::class.java)
     }
