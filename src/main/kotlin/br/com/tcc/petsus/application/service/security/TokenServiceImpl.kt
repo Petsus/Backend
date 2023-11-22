@@ -63,6 +63,7 @@ class TokenServiceImpl @Autowired constructor(
         runCatching {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
         }.onFailure {
+            it.printStackTrace()
             return false
         }
 

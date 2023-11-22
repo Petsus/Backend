@@ -19,6 +19,7 @@ class AuthenticationFilter(
             if (tokenService.isValidToken(token))
                 token.authenticate()
         }
+        println(request.headerNames.toList().joinToString { request.getHeader(it) })
         filterChain.doFilter(request, response)
     }
 
