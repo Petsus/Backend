@@ -50,6 +50,7 @@ class SecurityConfiguration (
             .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
             .anyRequest().authenticated()
             .and().csrf().disable()
+            .cors().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().addFilterBefore(AuthenticationFilter(tokenService, repository), UsernamePasswordAuthenticationFilter::class.java)
     }
