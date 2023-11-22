@@ -7,6 +7,7 @@ import br.com.tcc.petsus.domain.model.api.clinic.response.ClinicAddressResponse.
 import br.com.tcc.petsus.domain.model.api.clinic.response.ClinicDetailsResponse.Companion.responseDetails
 import br.com.tcc.petsus.domain.model.api.clinic.response.ClinicListResponse
 import br.com.tcc.petsus.domain.model.api.clinic.response.ClinicResponse.Companion.response
+import br.com.tcc.petsus.domain.model.database.user.types.AdmUser
 import br.com.tcc.petsus.domain.model.database.user.types.TownHallUser
 import br.com.tcc.petsus.domain.repository.database.clinic.ClinicRepository
 import br.com.tcc.petsus.domain.repository.database.townhall.TownHallRepository
@@ -47,23 +48,23 @@ class ClinicUseCaseImpl @Autowired constructor(
         uriComponentsBuilder: UriComponentsBuilder
     ): ProcessResult {
         val cityId = when (val user = currentUser) {
-            is TownHallUser -> townHallRepository.findByUserId(user.id)
+            is TownHallUser -> townHallRepository.findByUserId(user.id).orElse(null)?.city?.id
+            is AdmUser -> null
             else -> return ProcessResultImpl.successful(ClinicListResponse(page = page, pageCount = 0L, clinics = emptyList()))
         }
 
-        if (cityId.isEmpty)
-            return ProcessResultImpl.successful(ClinicListResponse(page = page, pageCount = 1L, clinics = emptyList()))
-
         val sort = run {
+            var current = Sort.by("id").descending()
             if (orderByDate)
-                return@run Sort.by("createdAt").descending()
+                current = current.and(Sort.by("createdAt").descending())
             if (orderByName)
-                return@run Sort.by("name").descending()
-            return@run Sort.by("id").descending()
+                current.and(Sort.by("name").descending())
+            return@run current
         }
 
         return clinicRepository.findByNameContains(
             query,
+            cityId = cityId,
             PageRequest.of(page.toInt() - 1, page.toInt(), sort)
         ).run {
             return@run ProcessResultImpl.successful(

@@ -4,6 +4,7 @@ import br.com.tcc.petsus.application.result.ProcessResultImpl
 import br.com.tcc.petsus.application.util.currentUser
 import br.com.tcc.petsus.domain.model.api.news.response.NewsResponse
 import br.com.tcc.petsus.domain.model.api.news.response.NewsResponse.Companion.response
+import br.com.tcc.petsus.domain.model.database.user.types.AdmUser
 import br.com.tcc.petsus.domain.model.database.user.types.ClinicUser
 import br.com.tcc.petsus.domain.model.database.user.types.TownHallUser
 import br.com.tcc.petsus.domain.repository.database.address.CityRepository
@@ -37,6 +38,8 @@ class DashboardUseCaseImpl @Autowired constructor(
                 ProcessResultImpl.successful(data = newsRepository.news(cityId = townHall.get().city.id).map { it.response() })
             }
 
+            is AdmUser -> return ProcessResultImpl.successful(data = newsRepository.newsAll())
+
             else -> ProcessResultImpl.successful(data = arrayOf<NewsResponse>())
         }
     }
@@ -55,6 +58,8 @@ class DashboardUseCaseImpl @Autowired constructor(
                     return ProcessResultImpl.successful(data = arrayOf<NewsResponse>())
                 ProcessResultImpl.successful(data = newsRepository.schedule(cityId = townHall.get().city.id).map { it.response() })
             }
+
+            is AdmUser -> return ProcessResultImpl.successful(data = newsRepository.scheduleAll())
 
             else -> ProcessResultImpl.successful(data = arrayOf<NewsResponse>())
         }

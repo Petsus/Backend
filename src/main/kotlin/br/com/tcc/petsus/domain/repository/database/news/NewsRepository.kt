@@ -11,6 +11,12 @@ interface NewsRepository : JpaRepository<News, Long> {
     @Query("select news from News news where news.date is null and (news.city.id = :cityId or news.city is null)")
     fun schedule(cityId: Long): List<News>
 
+    @Query("select news from News news where news.date is null")
+    fun scheduleAll(): List<News>
+
     @Query("select news from News news where news.date is not null and (news.city.id = :cityId or news.city is null)")
     fun news(cityId: Long): List<News>
+
+    @Query("select news from News news where news.date is not null")
+    fun newsAll(): List<News>
 }
