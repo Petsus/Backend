@@ -30,25 +30,25 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("mysql:mysql-connector-java")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.3")
+    implementation("org.springframework.boot:spring-boot-starter-security:2.7.3")
+    implementation("org.springframework.boot:spring-boot-starter-web:2.7.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+    developmentOnly("org.springframework.boot:spring-boot-devtools:2.7.3")
+    runtimeOnly("mysql:mysql-connector-java:8.0.30")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.3")
+    testImplementation("org.springframework.security:spring-security-test:5.7.3")
     testImplementation("junit:junit:4.13.2")
 
     implementation("io.jsonwebtoken:jjwt:0.9.1")
 
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-cache")
-    implementation("org.springframework.boot:spring-boot-starter-mail")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("org.springframework.boot:spring-boot-starter-validation:2.7.3")
+    implementation("org.springframework.boot:spring-boot-starter-cache:2.7.3")
+    implementation("org.springframework.boot:spring-boot-starter-mail:2.7.3")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:2.7.3")
 
 //	implementation("org.springframework.boot:spring-boot-starter-actuator")
 //	implementation("de.codecentric:spring-boot-admin-starter-client:2.7.4")
@@ -56,7 +56,7 @@ dependencies {
     implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
 
-    implementation("org.springframework:spring-web")
+    implementation("org.springframework:spring-web:5.3.22")
 
     implementation("com.google.firebase:firebase-admin:9.1.1")
 }
